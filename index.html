@@ -3,52 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>London Underground Usability Problem Map - Interactive</title>
+    <title>Vacation Management Usability Problem Map - Interview Data</title>
+    <!-- Load Inter font for better typography, as per best practice -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* General Reset and Font */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif; /* Using Inter font */
             background: #f5f5f5;
             padding: 20px;
         }
-        
+
+        /* Layout Container */
         .container {
             max-width: 100%;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 12px; /* Increased rounding */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1); /* Stronger shadow */
             overflow: hidden;
         }
-        
+
+        /* Header Styling */
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); /* Swapped gradient for variety */
             color: white;
             padding: 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .header h1 {
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 28px; /* Slightly larger */
+            font-weight: 700;
         }
-        
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
         .header .gemini-badge {
             background: rgba(255,255,255,0.2);
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
+
+        /* Controls Section */
         .controls {
             padding: 20px 30px;
             background: #f8f9fa;
@@ -58,100 +70,121 @@
             align-items: center;
             flex-wrap: wrap;
         }
-        
+
         .btn {
             padding: 10px 20px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px; /* Rounded corners */
             cursor: pointer;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        
+
         .btn-primary {
-            background: #667eea;
+            background: #764ba2; /* Updated button color */
             color: white;
         }
-        
+
         .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-1px);
+            background: #5c3b88;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        
+
         .btn-secondary {
             background: #48bb78;
             color: white;
         }
-        
+
         .btn-secondary:hover {
             background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        
+
         .filter-label {
             font-size: 14px;
             color: #4a5568;
-            font-weight: 500;
+            font-weight: 600;
         }
-        
+
         select {
             padding: 8px 12px;
             border: 1px solid #cbd5e0;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 14px;
             cursor: pointer;
+            appearance: none; /* Hide default arrow */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%234A5568" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592c.859 0 1.319 1.013.753 1.658l-4.796 5.482a1 1 0 0 1-1.506 0z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 30px;
         }
-        
+
+        /* Table Structure */
         .table-container {
             overflow-x: auto;
             overflow-y: auto;
             max-height: calc(100vh - 300px);
         }
-        
+
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate; /* Use separate for rounded cells/borders */
+            border-spacing: 0;
             font-size: 13px;
         }
-        
+
         th {
             background: #2d3748;
             color: white;
-            padding: 12px 8px;
+            padding: 14px 10px; /* Increased padding */
             text-align: left;
-            font-weight: 600;
+            font-weight: 700;
             position: sticky;
             top: 0;
             z-index: 10;
             white-space: nowrap;
-            font-size: 11px;
+            font-size: 12px;
             border-right: 1px solid #4a5568;
         }
-        
+
         th:first-child {
             position: sticky;
             left: 0;
             z-index: 20;
-            min-width: 120px;
+            min-width: 180px; /* Wider session column */
         }
-        
+        th:last-child {
+            border-right: none;
+        }
+
         td {
-            padding: 12px 8px;
+            padding: 12px 10px;
             border: 1px solid #e2e8f0;
             position: relative;
-            min-width: 100px;
-            max-width: 150px;
+            min-width: 130px;
+            max-width: 180px;
+            vertical-align: top;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-        
+
         td:first-child {
             position: sticky;
             left: 0;
             background: white;
             font-weight: 600;
             z-index: 5;
-            border-right: 2px solid #cbd5e0;
+            border-right: 2px solid #a0aec0; /* Clear separator */
+            white-space: nowrap;
+            overflow: visible;
         }
-        
+
+        /* Cell Coloring - Friction */
         .cell-red {
             background: #fed7d7;
             color: #742a2a;
@@ -159,48 +192,138 @@
             cursor: pointer;
             transition: all 0.2s;
             position: relative;
+            font-weight: 500;
         }
-        
+
         .cell-red:hover {
             background: #fc8181;
             transform: scale(1.02);
             z-index: 15;
+            box-shadow: 0 0 5px rgba(197, 48, 48, 0.5);
         }
-        
+
         .cell-red.multiple {
-            background: #fc8181;
+            background: #f56565; /* Darker red for multiple issues */
+            color: white;
             font-weight: 600;
         }
-        
+
         .cell-red.multiple::after {
             content: attr(data-count);
             position: absolute;
-            top: 2px;
+            top: 4px;
             right: 4px;
             background: #c53030;
             color: white;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 10px;
             font-weight: 700;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Cell Coloring - Neutral (No issue or not applicable to user role) */
+        .cell-neutral {
+            background: #f7fafc;
+            color: #a0aec0;
+            text-align: center;
+        }
+
+        /* Summary and Priority Rows */
+        .summary-row {
+            background: #e2e8f0;
+            font-weight: 700;
+            border-top: 3px solid #4a5568;
+        }
+
+        .summary-row td {
+            padding: 16px 10px;
+            font-size: 12px;
+            color: #2d3748;
+            border-color: #cbd5e0;
+        }
+
+        .priority-row {
+            background: #f0fff4; /* Light green background */
+            font-weight: 700;
+            border-bottom: 3px solid #764ba2;
+        }
+
+        .priority-row td {
+            font-size: 12px;
+            padding: 12px 10px;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            color: #c53030;
+        }
+
+        .priority-medium {
+            color: #d69e2e;
+        }
+
+        .priority-low {
+            color: #38a169;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: fixed;
+            background: #2d3748;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            max-width: 450px;
+            z-index: 1000;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            display: none;
+            pointer-events: none;
+            line-height: 1.5;
+            border: 1px solid #fbbf24;
+        }
+
+        .tooltip.show {
+            display: block;
+        }
+
+        .tooltip strong {
+            display: block;
+            margin-bottom: 10px;
+            color: #fbbf24;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .tooltip .friction-count {
+            display: inline-block;
+            background: #c53030;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-left: 8px;
         }
         
+        /* Friction List in Tooltip */
         .friction-list {
             margin: 0;
-            padding-left: 16px;
+            padding-left: 18px;
             list-style: none;
         }
-        
+
         .friction-list li {
             margin: 6px 0;
             padding-left: 12px;
             position: relative;
         }
-        
+
         .friction-list li::before {
             content: "▸";
             position: absolute;
@@ -208,140 +331,117 @@
             color: #f56565;
             font-weight: bold;
         }
-        
-        .cell-green {
-            background: #c6f6d5;
-            color: #22543d;
-        }
-        
-        .cell-neutral {
-            background: #f7fafc;
-            color: #a0aec0;
-            text-align: center;
-        }
-        
-        .summary-row {
-            background: #edf2f7;
-            font-weight: 600;
-            border-top: 3px solid #4a5568;
-        }
-        
-        .summary-row td {
-            padding: 16px 8px;
-            font-size: 12px;
-            color: #2d3748;
-        }
-        
-        .priority-row {
-            background: #e6fffa;
-            font-weight: 600;
-        }
-        
-        .priority-high {
-            color: #c53030;
-        }
-        
-        .priority-medium {
-            color: #d69e2e;
-        }
-        
-        .priority-low {
-            color: #38a169;
-        }
-        
-        .tooltip {
-            position: fixed;
-            background: #2d3748;
-            color: white;
-            padding: 16px;
-            border-radius: 8px;
-            font-size: 12px;
-            max-width: 400px;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            display: none;
-            pointer-events: none;
-            line-height: 1.6;
-        }
-        
-        .tooltip.show {
-            display: block;
-        }
-        
-        .tooltip strong {
-            display: block;
-            margin-bottom: 10px;
-            color: #fbbf24;
-            font-size: 13px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 6px;
-        }
-        
-        .tooltip .friction-count {
-            display: inline-block;
-            background: #c53030;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            margin-left: 8px;
-        }
-        
+
         .link-icon {
-            color: #667eea;
+            color: #764ba2;
             text-decoration: none;
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 5px;
+            font-weight: 700;
         }
-        
+
+        /* Stats Panel */
         .stats-panel {
             padding: 20px 30px;
-            background: #f8f9fa;
+            background: #fff;
             border-top: 1px solid #e0e0e0;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjusted width */
             gap: 20px;
+            border-top: 3px solid #764ba2;
         }
-        
+
         .stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: 6px;
-            border-left: 4px solid #667eea;
+            background: #f7fafc;
+            padding: 18px; /* Increased padding */
+            border-radius: 8px;
+            border-left: 4px solid #764ba2;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
         }
-        
+
         .stat-card h3 {
             font-size: 12px;
             color: #718096;
             margin-bottom: 8px;
             text-transform: uppercase;
+            font-weight: 600;
         }
-        
+
         .stat-card .value {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 32px; /* Larger value */
+            font-weight: 800;
             color: #2d3748;
         }
-        
+
+        /* Legend */
         .legend {
             padding: 15px 30px;
             background: #fff;
             border-bottom: 1px solid #e0e0e0;
             display: flex;
-            gap: 20px;
+            gap: 25px;
             align-items: center;
-            font-size: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4a5568;
         }
-        
+
+        .legend strong {
+            font-weight: 700;
+            color: #2d3748;
+        }
+
         .legend-item {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
+
         .legend-box {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 4px;
+        }
+
+        /* Responsiveness for Mobile */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 22px;
+            }
+            .header .gemini-badge {
+                margin-top: 10px;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 15px;
+            }
+            .controls select {
+                width: 100%;
+            }
+            .controls .btn {
+                width: 100%;
+            }
+            .table-container {
+                max-height: 50vh; /* Adjust max height for smaller screens */
+            }
+            .legend {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 15px;
+            }
+            .stats-panel {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -349,75 +449,62 @@
     <div class="container">
         <div class="header">
             <div>
-                <h1>🚇 London Underground Usability Problem Map</h1>
-                <p style="margin-top: 8px; opacity: 0.9;">Oct 2025 Testing Cycle - 12 Sessions Across 6 Stations</p>
+                <h1>📝 Vacation Management Usability Problem Map</h1>
+                <p style="margin-top: 8px; opacity: 0.9;">Decathlon Planning - Interview Synthesis (5 Sessions, 9 Users)</p>
             </div>
             <div class="gemini-badge">
-                ✨ Powered by Gemini
+                ✨ Content Generated by Gemini
             </div>
         </div>
-        
+
         <div class="legend">
             <strong>Legend:</strong>
             <div class="legend-item">
                 <div class="legend-box" style="background: #fed7d7;"></div>
-                <span>Friction Detected</span>
+                <span>Friction Point Detected (Hover for Quotes)</span>
             </div>
             <div class="legend-item">
-                <div class="legend-box" style="background: #f7fafc;"></div>
-                <span>No Issues</span>
+                <div class="legend-box" style="background: #f7fafc; border: 1px solid #e2e8f0;"></div>
+                <span>No Friction Cited/N/A to Role</span>
             </div>
             <div class="legend-item">
-                <span style="color: #718096;">Hover red cells for evidence quotes</span>
+                <div class="legend-box" style="background: #f56565;"></div>
+                <span>Multiple Friction Points in Session</span>
             </div>
         </div>
-        
+
         <div class="controls">
-            <button class="btn btn-primary" onclick="runTagger()">▶ Run Tagger Gem</button>
-            <button class="btn btn-secondary" onclick="runSummarizer()">▶ Run Summarizer Gem</button>
+            <button class="btn btn-primary" onclick="runTagger()">▶ Load Raw Transcript Data</button>
+            <button class="btn btn-secondary" onclick="runSummarizer()">▶ Analyze Friction Points</button>
             <span class="filter-label">Filter by:</span>
-            <select onchange="filterByStation(this.value)">
-                <option value="all">All Stations</option>
-                <option value="kings-cross">King's Cross</option>
-                <option value="oxford-circus">Oxford Circus</option>
-                <option value="victoria">Victoria</option>
-                <option value="bank">Bank</option>
-                <option value="waterloo">Waterloo</option>
-                <option value="liverpool-st">Liverpool Street</option>
+            <select id="roleFilter" onchange="filterTable()">
+                <option value="all">All User Roles</option>
+                <option value="collaborator">👤 Collaborator Only</option>
+                <option value="manager">👑 Manager Only</option>
             </select>
-            <select onchange="filterBySeverity(this.value)">
-                <option value="all">All Severity Levels</option>
-                <option value="high">High Priority Only</option>
-                <option value="medium">Medium Priority</option>
+            <select id="severityFilter" onchange="filterTable()">
+                <option value="all">All Priority Levels</option>
+                <option value="high">🔴 High Priority Only</option>
+                <option value="medium">🟡 Medium Priority</option>
+                <option value="low">🟢 Low Priority</option>
             </select>
         </div>
-        
+
         <div class="table-container">
             <table id="problemMap">
                 <thead>
                     <tr>
-                        <th>Session ID</th>
-                        <th>Ticket Purchase</th>
-                        <th>Contactless Payment</th>
-                        <th>Oyster Card Top-up</th>
-                        <th>Zone Understanding</th>
-                        <th>Route Planning</th>
-                        <th>Direction Signs</th>
-                        <th>Platform Finding</th>
-                        <th>Exit Navigation</th>
-                        <th>Interchange Flow</th>
-                        <th>Elizabeth Line Connection</th>
-                        <th>Step-free Access</th>
-                        <th>Lift Availability</th>
-                        <th>Audio Announcements</th>
-                        <th>Visual Displays</th>
-                        <th>Crowding Management</th>
-                        <th>Peak Time Navigation</th>
-                        <th>Mobile Signal</th>
-                        <th>WiFi Access</th>
-                        <th>Customer Service Visibility</th>
-                        <th>Emergency Info</th>
-                        <th>Toilet Finding</th>
+                        <th>User / Role (Rating)</th>
+                        <th>View Remaining Balance (Label Clarity)</th>
+                        <th>Understand Day Types (Gold/Festivo/Colors)</th>
+                        <th>Request Day Selection (Clarity/Ease of Use)</th>
+                        <th>Understand Team Conflict (Counters)</th>
+                        <th>View Decision Status (Colors/Alerts)</th>
+                        <th>Modify/Cancel Request (Workflow)</th>
+                        <th>Manager: Team View (Cross-Team Visibility)</th>
+                        <th>Manager: Granular Approval (Action Flexibility)</th>
+                        <th>Manager: Decision Context (Comments/Why)</th>
+                        <th>Overall UX/Intuition (Direct Quote)</th>
                     </tr>
                 </thead>
                 <tbody id="dataRows">
@@ -425,7 +512,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <div class="stats-panel">
             <div class="stat-card">
                 <h3>Total Friction Points</h3>
@@ -437,403 +524,323 @@
             </div>
             <div class="stat-card">
                 <h3>Sessions Analyzed</h3>
-                <div class="value">12</div>
+                <div class="value">9</div>
             </div>
             <div class="stat-card">
-                <h3>Avg Issues per Session</h3>
+                <h3>Avg UX Rating (1-7)</h3>
                 <div class="value" id="avgIssues">0.0</div>
             </div>
         </div>
     </div>
-    
+
     <div class="tooltip" id="tooltip"></div>
-    
+
     <script>
+        // Data extracted and synthesized from the provided interview transcripts.
         const sessions = [
             {
-                id: "Tourist_01",
-                station: "kings-cross",
-                profile: "First-time visitor from US",
+                id: "Raquel A.",
+                role: "manager-collab",
+                profile: "Manager & Collab (Rated 5.5/7)",
+                rating: 5.5, // Average of 6 (Collab) and 5 (Manager)
                 issues: {
-                    "Ticket Purchase": [
-                        "couldn't find contactless option on machine",
-                        "interface only in English, needed translation",
-                        "didn't know if I needed Oyster card or could use credit card"
+                    "View Remaining Balance": [
+                        "Confused by small counter numbers: 'los unos pequeñitos que no sé exactamente unos y dos, no veo en la leyenda'.",
+                        "Wants fixed scroll on the balance panel to always track remaining days."
                     ],
-                    "Zone Understanding": [
-                        "pricing zones made no sense",
-                        "zone map colors confusing",
-                        "didn't understand why same journey costs different at peak times"
+                    "Understand Day Types": [
+                        "Wants Gold Days to be fully blocked."
                     ],
-                    "Route Planning": [
-                        "Oyster vs Travelcard confusing",
-                        "app showed different route than station map"
+                    "Request Day Selection": [
+                        "Cannot drag to select a full week/range of days ('No puedes arrastrar. Sí, que lía un poco')."
                     ],
-                    "Elizabeth Line Connection": [
-                        "didn't know how to transfer",
-                        "Elizabeth Line not clearly marked on main tube map"
+                    "Understand Team Conflict": [
+                        "Small counter numbers (1/2) for colleagues are not clearly defined."
                     ],
-                    "Exit Navigation": [
-                        "too many exit options, got lost",
-                        "exit signs didn't match street names I knew"
-                    ]
+                    "View Decision Status": [
+                        "Wants the originally accepted day to remain marked after proposing a change."
+                    ],
+                    "Modify/Cancel Request": [
+                        "Changing an accepted day to a new one led to loss of original approval status ('el 20 lo tenía aceptado... se me ha rechazado')."
+                    ],
+                    "Manager: Team View": [
+                        "Lacks comprehensive cross-team view ('no tengo una vista completa de las vacaciones, o sea, O sea, lo tengo por persona, pero no se me cruza.')."
+                    ],
+                    "Manager: Granular Approval": [
+                        "Needs to see WHICH person requested on a calendar day before clicking into the profile."
+                    ],
+                    "Manager: Decision Context": [
+                        "Wants the manager to add a comment to rejection (e.g., 'porque tienes dos compañeros del mismo equipo de vacaciones')."
+                    ],
+                    "Overall UX/Intuition": ["Rated 5-6 as Collab, 4-5 as Manager, citing lack of cross-view and poor balance tracking."]
                 }
             },
             {
-                id: "Commuter_02",
-                station: "oxford-circus",
-                profile: "Daily commuter, 2 years experience",
+                id: "Raúl",
+                role: "collaborator",
+                profile: "Collaborator (Rated 4/7)",
+                rating: 4.0,
                 issues: {
-                    "Direction Signs": [
-                        "couldn't tell which direction northbound",
-                        "direction arrows contradicted each other at junction"
+                    "View Remaining Balance": [
+                        "Unexplained number counters ('1' and '2') are not clear without manager explanation."
                     ],
-                    "Platform Finding": [
-                        "platform numbers hidden behind crowd",
-                        "digital boards showed wrong platform number"
+                    "Understand Day Types": [
+                        "Confusion with basic rules: 'a los propios colaboradores les cuesta... sábado y domingo no poner día de vacación.'"
                     ],
-                    "Peak Time Navigation": [
-                        "impossible to move during rush hour",
-                        "no crowd control at bottleneck points",
-                        "nearly missed train due to slow-moving crowd"
+                    "Request Day Selection": [],
+                    "Understand Team Conflict": [
+                        "Suggested a hover-over tooltip to clarify the '1' or '2' counter ('Hay un colaborador que está solicitando este mismo día')."
                     ],
-                    "Visual Displays": [
-                        "delay information came too late to change route"
-                    ]
+                    "View Decision Status": [
+                        "Rejected day status is unclear without explanation from manager."
+                    ],
+                    "Modify/Cancel Request": [],
+                    "Manager: Team View": [],
+                    "Manager: Granular Approval": [],
+                    "Manager: Decision Context": [],
+                    "Overall UX/Intuition": ["Rated 4, stating the numbers and colors are not intuitive without prior explanation."]
                 }
             },
             {
-                id: "Senior_03",
-                station: "victoria",
-                profile: "65+ with mobility issues",
+                id: "Alex P.",
+                role: "manager",
+                profile: "Manager (Rated 4/7)",
+                rating: 4.0,
                 issues: {
-                    "Ticket Purchase": [
-                        "screen text too small to read",
-                        "touch screen not responsive to light touch",
-                        "no option to increase text size"
+                    "View Remaining Balance": [],
+                    "Understand Day Types": [],
+                    "Request Day Selection": [],
+                    "Understand Team Conflict": [
+                        "Major friction: Needs a visual way to see overlap/conflict matrix to validate requests ('necesitaría saber para poder validar estas vacaciones.')."
                     ],
-                    "Step-free Access": [
-                        "step-free route not clearly marked",
-                        "signs too high up on wall to read easily",
-                        "step-free map at entrance too detailed and confusing"
+                    "View Decision Status": [],
+                    "Modify/Cancel Request": [],
+                    "Manager: Team View": [
+                        "Wants the number of approved users (green counter) on the individual employee view for validation."
                     ],
-                    "Lift Availability": [
-                        "lift was out of service, no alternative shown",
-                        "no estimated wait time displayed",
-                        "lift arrived but was full, had to wait for next"
+                    "Manager: Granular Approval": [
+                        "Needs to see the number of accepted days ('el dos de abajo') on the individual validation screen."
                     ],
-                    "Audio Announcements": [
-                        "couldn't hear announcements clearly",
-                        "announcements too fast",
-                        "background noise drowned out important info"
-                    ],
-                    "Exit Navigation": [
-                        "too many corridor options"
-                    ],
-                    "Customer Service Visibility": [
-                        "couldn't find staff to ask for help"
-                    ]
+                    "Manager: Decision Context": [],
+                    "Overall UX/Intuition": ["Rated 4, primarily due to lack of overlap visibility."]
                 }
             },
             {
-                id: "Tourist_04",
-                station: "bank",
-                profile: "European tourist with luggage",
+                id: "Marián G.",
+                role: "collaborator",
+                profile: "Collaborator (Rated 6/7)",
+                rating: 6.0,
                 issues: {
-                    "Zone Understanding": [
-                        "zone map incomprehensible",
-                        "didn't know Bank and Monument count as one station"
+                    "View Remaining Balance": [
+                        "Translation issue: 'no entiendo muy bien lo de cero del balance usuario más uno de arrastre' (Confused by 'arrastre')."
                     ],
-                    "Interchange Flow": [
-                        "Bank-Monument interchange confusing",
-                        "multiple routes shown but no indication which is fastest",
-                        "got lost in underground passages"
+                    "Understand Day Types": [
+                        "Understands green as accepted and blue as requested."
                     ],
-                    "Platform Finding": [
-                        "signs contradicted each other",
-                        "couldn't find Northern line platform after following signs"
+                    "Request Day Selection": [
+                        "Successfully used click/deselect/re-select method to modify a request."
                     ],
-                    "Customer Service Visibility": [
-                        "couldn't find staff when needed",
-                        "help point button didn't work"
+                    "Understand Team Conflict": [
+                        "Correctly interpreted small number as # of colleagues on vacation."
                     ],
-                    "Exit Navigation": [
-                        "came out wrong exit, had to walk around block"
-                    ]
+                    "View Decision Status": [],
+                    "Modify/Cancel Request": [],
+                    "Manager: Team View": [],
+                    "Manager: Granular Approval": [],
+                    "Manager: Decision Context": [],
+                    "Overall UX/Intuition": ["Rated 6, finding it 'muy intuitivo' once started, but noted legend nomenclature issues."]
                 }
             },
             {
-                id: "Parent_05",
-                station: "waterloo",
-                profile: "Parent with stroller and 2 children",
+                id: "Rafaela N.",
+                role: "manager",
+                profile: "Manager (Rated 6/7)",
+                rating: 6.0,
                 issues: {
-                    "Step-free Access": [
-                        "no buggy access visible",
-                        "step-free route went through 3 different levels",
-                        "accessible entrance not marked from main street"
+                    "View Remaining Balance": [],
+                    "Understand Day Types": [
+                        "Nomenclature issue: 'Feriados lo entiendo, pero bancos me parecía un poco difícil de entenderlo.'",
+                        "Wants Gold Days tied to sectional data (MyGame/facturación) for better relevance."
                     ],
-                    "Lift Availability": [
-                        "lift queue too long, no alternative",
-                        "lift too small for buggy plus other passengers",
-                        "no priority system for parents with strollers"
+                    "Request Day Selection": [],
+                    "Understand Team Conflict": [],
+                    "View Decision Status": [],
+                    "Modify/Cancel Request": [],
+                    "Manager: Team View": [
+                        "Asked if the solution could replace their current Excel file for team visibility."
                     ],
-                    "Platform Finding": [
-                        "couldn't find platform from main entrance",
-                        "had to backtrack twice with stroller"
+                    "Manager: Granular Approval": [
+                        "The ability to see the total number of concurrent requests is essential for initial triage."
                     ],
-                    "Toilet Finding": [
-                        "no clear signs to accessible toilets",
-                        "family toilet located outside paid area only"
-                    ],
-                    "Exit Navigation": [
-                        "stroller got stuck in barriers",
-                        "wide barrier gate not clearly marked"
-                    ],
-                    "Customer Service Visibility": [
-                        "no staff available to help open wide gate"
-                    ]
+                    "Manager: Decision Context": [],
+                    "Overall UX/Intuition": ["Rated 6, noting it is an improvement over current pacto + Excel system."]
                 }
             },
             {
-                id: "Student_06",
-                station: "liverpool-st",
-                profile: "University student, international",
+                id: "Nacho",
+                role: "collaborator",
+                profile: "Collaborator (Rated 6/7)",
+                rating: 6.0,
                 issues: {
-                    "Contactless Payment": [
-                        "didn't know about daily cap",
-                        "worried about being overcharged",
-                        "no way to check balance before journey"
+                    "View Remaining Balance": [
+                        "Translation issue: 'no entiendo muy bien lo de cero del balance usuario más uno de arrastre'."
                     ],
-                    "Route Planning": [
-                        "Elizabeth Line connection unclear on map",
-                        "didn't know Elizabeth Line counts as separate fare zone",
-                        "app and physical map showed different information"
+                    "Understand Day Types": [],
+                    "Request Day Selection": [],
+                    "Understand Team Conflict": [],
+                    "View Decision Status": [
+                        "Wants a notification/alert when a request is rejected ('te ha rechazado un día')."
                     ],
-                    "Visual Displays": [
-                        "departure boards don't show real-time delays",
-                        "platform changes not updated quickly enough"
+                    "Modify/Cancel Request": [
+                        "Cancellation of an accepted day should require manager re-validation, not just removal: 'solicita la cancelación, ¿no?'"
                     ],
-                    "WiFi Access": [
-                        "couldn't connect to WiFi at platform level",
-                        "WiFi login required email, wouldn't accept university email"
-                    ],
-                    "Oyster Card Top-up": [
-                        "top-up machine wouldn't accept foreign debit card"
-                    ]
+                    "Manager: Team View": [],
+                    "Manager: Granular Approval": [],
+                    "Manager: Decision Context": [],
+                    "Overall UX/Intuition": ["Rated 6, noting it is 'bastante funcional' but has small areas for improvement."]
                 }
             },
             {
-                id: "Business_07",
-                station: "kings-cross",
-                profile: "Business traveler with carry-on",
+                id: "Marta G.",
+                role: "manager",
+                profile: "Manager (Rated 6/7)",
+                rating: 6.0,
                 issues: {
-                    "Interchange Flow": [
-                        "King's Cross to St Pancras not intuitive",
-                        "had to exit and re-enter through different entrance",
-                        "signage assumed I knew the two stations are connected"
+                    "View Remaining Balance": [],
+                    "Understand Day Types": [
+                        "Appreciates the Gold Day visibility ('los días gold')."
                     ],
-                    "Mobile Signal": [
-                        "lost signal in underground passages",
-                        "couldn't check email while waiting for train"
+                    "Request Day Selection": [],
+                    "Understand Team Conflict": [
+                        "Wants to see the conflict counters (1/2) when viewing an individual employee to aid validation."
                     ],
-                    "Exit Navigation": [
-                        "wrong exit, had to re-enter station",
-                        "exit numbering system makes no sense"
+                    "View Decision Status": [],
+                    "Modify/Cancel Request": [],
+                    "Manager: Team View": [],
+                    "Manager: Granular Approval": [
+                        "Needs explicit multiselection for bulk approval/rejection (not clear if single click on a day is enough)."
                     ],
-                    "Platform Finding": [
-                        "platform for Eurostar not clearly signed from tube platforms"
-                    ]
+                    "Manager: Decision Context": [
+                        "Emphasized that an alert/notification is needed upon rejection."
+                    ],
+                    "Overall UX/Intuition": ["'creo que da muchísima visibilidad sobre todo al manager.'"]
                 }
             },
             {
-                id: "Tourist_08",
-                station: "oxford-circus",
-                profile: "Group of 4 tourists from Asia",
+                id: "Ferrán",
+                role: "collaborator",
+                profile: "Collaborator (Rated 5.5/7)",
+                rating: 5.5, // Used 5.5 as average
                 issues: {
-                    "Ticket Purchase": [
-                        "group ticket option not clear",
-                        "machine didn't explain if group discount exists",
-                        "each person bought separately, may have overpaid"
+                    "View Remaining Balance": [],
+                    "Understand Day Types": [
+                        "Confused by the variety of colors and borders ('azul claro, azul, negro, etc.').",
+                        "Suggested Golden Days ('días fuertes') should be blocked/painted red."
                     ],
-                    "Route Planning": [
-                        "Circle line vs Central line confusing",
-                        "map colors too similar to distinguish",
-                        "no explanation of which line is faster for our destination"
+                    "Request Day Selection": [],
+                    "Understand Team Conflict": [
+                        "Appreciated the counter visibility, as the previous system lacked this ('no salía tanta información')."
                     ],
-                    "Direction Signs": [
-                        "bilingual signs would help",
-                        "icons alone not sufficient for understanding",
-                        "romanization of station names inconsistent"
+                    "View Decision Status": [],
+                    "Modify/Cancel Request": [
+                        "Prototype did not correctly re-assign 'adeudadas' status on day modification."
                     ],
-                    "Crowding Management": [
-                        "felt unsafe due to overcrowding",
-                        "group got separated on platform",
-                        "no clear queuing system for train doors"
-                    ],
-                    "Audio Announcements": [
-                        "announcements only in English, couldn't understand"
-                    ]
+                    "Manager: Team View": [],
+                    "Manager: Granular Approval": [],
+                    "Manager: Decision Context": [],
+                    "Overall UX/Intuition": ["'lo veo bastante mejor que el otro. Al final te da mucha más información. Sale claro.'"]
                 }
             },
             {
-                id: "Elderly_09",
-                station: "victoria",
-                profile: "78-year-old using walking stick",
+                id: "Jose Mari G.",
+                role: "manager",
+                profile: "Manager (Rated 6/7)",
+                rating: 6.0,
                 issues: {
-                    "Step-free Access": [
-                        "step-free signs too high to read",
-                        "needed magnifying glass to read small text on maps",
-                        "no tactile paving to indicate step-free paths"
+                    "View Remaining Balance": [],
+                    "Understand Day Types": [
+                        "Wants color continuity with e-planning: green for approved, red for high-traffic days."
                     ],
-                    "Audio Announcements": [
-                        "announcements too fast",
-                        "couldn't distinguish important info from routine announcements",
-                        "volume inconsistent across different platforms"
+                    "Request Day Selection": [],
+                    "Understand Team Conflict": [
+                        "Wants the team counter visible on the individual employee view: 'se ha ido el numerito de cuántas personas hay de vacaciones'."
                     ],
-                    "Customer Service Visibility": [
-                        "no staff at platform level",
-                        "help point too far to walk to with mobility issues",
-                        "couldn't get assistance when needed"
+                    "View Decision Status": [],
+                    "Modify/Cancel Request": [],
+                    "Manager: Team View": [],
+                    "Manager: Granular Approval": [
+                        "Needs explicit multiselection for bulk approval/rejection."
                     ],
-                    "Emergency Info": [
-                        "emergency help points not obvious",
-                        "emergency instructions written too small"
+                    "Manager: Decision Context": [
+                        "Suggests blocking the re-solicitation of rejected days to encourage conversation."
                     ],
-                    "Visual Displays": [
-                        "digital screens refresh too quickly, couldn't read in time"
-                    ],
-                    "Lift Availability": [
-                        "lift door closes too quickly for slow walkers"
-                    ]
-                }
-            },
-            {
-                id: "Commuter_10",
-                station: "bank",
-                profile: "Regular commuter during engineering works",
-                issues: {
-                    "Visual Displays": [
-                        "disruption info arrived too late",
-                        "screens showed conflicting closure information",
-                        "no estimated journey time with disruptions"
-                    ],
-                    "Route Planning": [
-                        "alternative routes not suggested",
-                        "app didn't account for current closures",
-                        "had to ask multiple staff members for best alternative"
-                    ],
-                    "Platform Finding": [
-                        "temporary signs conflicted with permanent ones",
-                        "paper notices stuck over digital displays",
-                        "replacement bus service poorly signed"
-                    ],
-                    "Audio Announcements": [
-                        "repeated disruption messages but no solutions offered"
-                    ]
-                }
-            },
-            {
-                id: "Disabled_11",
-                station: "waterloo",
-                profile: "Wheelchair user",
-                issues: {
-                    "Step-free Access": [
-                        "step-free route involved 3 lifts with no map",
-                        "accessible entrance poorly marked from street level",
-                        "step-free route added 10 minutes to journey",
-                        "no indication which platforms are accessible"
-                    ],
-                    "Lift Availability": [
-                        "one lift broken, no update on wait time",
-                        "lift alarm button positioned too high to reach from wheelchair",
-                        "lift arrived but wheelchair couldn't fit with other passengers"
-                    ],
-                    "Platform Finding": [
-                        "accessible platform entrance hard to locate",
-                        "wheelchair ramp not visible from main corridor"
-                    ],
-                    "Customer Service Visibility": [
-                        "had to call help line, no visible staff",
-                        "staff response time over 15 minutes",
-                        "no dedicated assistance point for disabled passengers"
-                    ],
-                    "Emergency Info": [
-                        "emergency protocols unclear for wheelchair users",
-                        "evacuation chair locations not marked"
-                    ],
-                    "Audio Announcements": [
-                        "no visual equivalent for audio announcements on platform"
-                    ]
-                }
-            },
-            {
-                id: "Teen_12",
-                station: "liverpool-st",
-                profile: "16-year-old first solo journey",
-                issues: {
-                    "Oyster Card Top-up": [
-                        "top-up machine rejected card twice",
-                        "error message didn't explain what was wrong",
-                        "no cash option available at this machine"
-                    ],
-                    "Route Planning": [
-                        "didn't understand zone boundaries",
-                        "app required account creation, just wanted directions",
-                        "multiple route options shown but no explanation of differences"
-                    ],
-                    "WiFi Access": [
-                        "WiFi login process too complicated",
-                        "had to provide email and phone number just to access WiFi",
-                        "connection dropped after 5 minutes"
-                    ],
-                    "Visual Displays": [
-                        "screens too high to read comfortably",
-                        "bright screen glare made reading difficult"
-                    ],
-                    "Contactless Payment": [
-                        "didn't know if phone contactless payment would work"
-                    ]
+                    "Overall UX/Intuition": ["'me parece un gran avance... te daría un seis para agregar esas mejoras más.'"]
                 }
             }
         ];
-        
+
+        // New Column Definitions
         const allColumns = [
-            "Ticket Purchase", "Contactless Payment", "Oyster Card Top-up", "Zone Understanding",
-            "Route Planning", "Direction Signs", "Platform Finding", "Exit Navigation",
-            "Interchange Flow", "Elizabeth Line Connection", "Step-free Access", "Lift Availability",
-            "Audio Announcements", "Visual Displays", "Crowding Management", "Peak Time Navigation",
-            "Mobile Signal", "WiFi Access", "Customer Service Visibility", "Emergency Info", "Toilet Finding"
+            "View Remaining Balance",
+            "Understand Day Types",
+            "Request Day Selection",
+            "Understand Team Conflict",
+            "View Decision Status",
+            "Modify/Cancel Request",
+            "Manager: Team View",
+            "Manager: Granular Approval",
+            "Manager: Decision Context",
+            "Overall UX/Intuition"
         ];
         
-        function renderTable() {
+        // Function to determine priority based on occurrence and total friction points
+        function getPriority(count, frictionPoints) {
+            const numSessions = sessions.length;
+            const percentage = (count / numSessions) * 100;
+
+            if (percentage >= 40 || frictionPoints >= 4) { // Adjusted metrics for new data scale
+                return { level: 'high', label: '🔴 HIGH' };
+            }
+            if (percentage >= 20 || frictionPoints >= 2) {
+                return { level: 'medium', label: '🟡 MEDIUM' };
+            }
+            if (count > 0) {
+                return { level: 'low', label: '🟢 LOW' };
+            }
+            return { level: 'none', label: '—' };
+        }
+
+
+        // Global function to render the table (including summary and priority rows)
+        function renderTable(filteredSessions = sessions) {
             const tbody = document.getElementById('dataRows');
             tbody.innerHTML = '';
             
-            // Data rows
-            sessions.forEach(session => {
+            // --- 1. Data Rows ---
+            filteredSessions.forEach(session => {
                 const row = document.createElement('tr');
-                row.dataset.station = session.station;
+                // Role filtering for manager/collaborator
+                // Check if the role explicitly contains 'manager'. If it's a combined role, we treat it as a manager for filtering purposes.
+                row.dataset.role = session.role.includes('manager') ? 'manager' : 'collaborator';
                 
-                // Session ID column
                 const idCell = document.createElement('td');
-                idCell.innerHTML = `<a href="#" class="link-icon">📄</a>${session.id}`;
+                idCell.title = session.profile;
+                idCell.innerHTML = `<a href="#" class="link-icon" onclick="event.preventDefault()">👤</a> ${session.id}<br><span style="font-size:10px;color:#718096;font-weight: normal;">Rating: ${session.rating.toFixed(1)}/7</span>`;
                 row.appendChild(idCell);
                 
-                // Issue columns
                 allColumns.forEach(column => {
                     const cell = document.createElement('td');
-                    if (session.issues[column]) {
-                        const issues = Array.isArray(session.issues[column]) 
-                            ? session.issues[column] 
-                            : [session.issues[column]];
-                        
+                    // Ensure the issues array exists and is not empty
+                    const issues = session.issues[column] || []; 
+                    
+                    if (issues.length > 0) {
                         const count = issues.length;
                         cell.className = count > 1 ? 'cell-red multiple' : 'cell-red';
                         
-                        // Show preview of first issue
-                        cell.textContent = `"${issues[0].substring(0, 25)}..."`;
+                        // Show preview of first issue, truncate long text
+                        cell.textContent = `"${issues[0].substring(0, 25)}${issues[0].length > 25 ? '...' : ''}"`;
                         
-                        // Store all issues in data attribute
+                        // Store all issues in data attribute for tooltip
                         cell.dataset.issues = JSON.stringify(issues);
                         cell.dataset.count = count;
                         cell.dataset.session = session.id;
@@ -847,123 +854,191 @@
                 
                 tbody.appendChild(row);
             });
-            
-            // Summary row
-            const summaryRow = document.createElement('tr');
-            summaryRow.className = 'summary-row';
-            summaryRow.innerHTML = '<td><strong>SUMMARY</strong></td>';
-            
-            allColumns.forEach(column => {
-                const cell = document.createElement('td');
-                const sessionsWithIssues = sessions.filter(s => s.issues[column]);
-                const count = sessionsWithIssues.length;
+
+            // If a filter is active, we skip summary/priority of filtered data
+            if (filteredSessions.length === sessions.length) {
                 
-                // Count total friction points across all sessions
-                const totalFrictionPoints = sessionsWithIssues.reduce((sum, session) => {
-                    const issues = session.issues[column];
-                    return sum + (Array.isArray(issues) ? issues.length : 1);
-                }, 0);
+                // --- 2. Summary Row (Total Users Affected / Total Friction Points) ---
+                const summaryRow = document.createElement('tr');
+                summaryRow.className = 'summary-row';
+                summaryRow.innerHTML = '<td><strong>SESSIONS AFFECTED</strong></td>';
                 
-                if (count > 0) {
-                    const percentage = Math.round((count / sessions.length) * 100);
-                    cell.innerHTML = `${count}/${sessions.length} users<br><span style="font-size:10px;color:#718096;">(${totalFrictionPoints} friction points)</span>`;
-                } else {
-                    cell.textContent = 'No issues';
-                    cell.style.color = '#a0aec0';
-                }
-                summaryRow.appendChild(cell);
-            });
-            
-            tbody.appendChild(summaryRow);
-            
-            // Priority row
-            const priorityRow = document.createElement('tr');
-            priorityRow.className = 'priority-row';
-            priorityRow.innerHTML = '<td><strong>PRIORITY</strong></td>';
-            
-            allColumns.forEach(column => {
-                const cell = document.createElement('td');
-                const sessionsWithIssues = sessions.filter(s => s.issues[column]);
-                const count = sessionsWithIssues.length;
-                const percentage = (count / sessions.length) * 100;
+                allColumns.forEach(column => {
+                    const cell = document.createElement('td');
+                    const sessionsWithIssues = sessions.filter(s => s.issues[column] && s.issues[column].length > 0);
+                    const count = sessionsWithIssues.length;
+                    
+                    const totalFrictionPoints = sessionsWithIssues.reduce((sum, session) => {
+                        return sum + (session.issues[column].length);
+                    }, 0);
+                    
+                    if (count > 0) {
+                        cell.innerHTML = `${count}/${sessions.length} sessions<br><span style="font-size:10px;color:#718096;">(${totalFrictionPoints} friction points)</span>`;
+                    } else {
+                        cell.textContent = 'No issues';
+                        cell.style.color = '#a0aec0';
+                    }
+                    summaryRow.appendChild(cell);
+                });
+                tbody.appendChild(summaryRow);
+
+                // --- 3. Priority Row (Calculated Severity) ---
+                const priorityRow = document.createElement('tr');
+                priorityRow.className = 'priority-row';
+                priorityRow.innerHTML = '<td><strong>PRIORITY</strong></td>';
                 
-                // Calculate total friction points for severity
-                const totalFrictionPoints = sessionsWithIssues.reduce((sum, session) => {
-                    const issues = session.issues[column];
-                    return sum + (Array.isArray(issues) ? issues.length : 1);
-                }, 0);
+                let highPriorityCount = 0;
+                let totalRating = 0;
+
+                allColumns.forEach(column => {
+                    const cell = document.createElement('td');
+                    const sessionsWithIssues = sessions.filter(s => s.issues[column] && s.issues[column].length > 0);
+                    const count = sessionsWithIssues.length;
+                    
+                    const totalFrictionPoints = sessionsWithIssues.reduce((sum, session) => {
+                        return sum + (session.issues[column].length);
+                    }, 0);
+                    
+                    const priority = getPriority(count, totalFrictionPoints);
+                    
+                    cell.innerHTML = priority.label;
+                    cell.className = `priority-${priority.level}`;
+                    cell.dataset.priority = priority.level;
+
+                    if (priority.level === 'high') {
+                        highPriorityCount++;
+                    }
+
+                    priorityRow.appendChild(cell);
+                });
                 
-                if (percentage >= 40 || totalFrictionPoints >= 8) {
-                    cell.innerHTML = '🔴 HIGH';
-                    cell.className = 'priority-high';
-                } else if (percentage >= 20 || totalFrictionPoints >= 4) {
-                    cell.innerHTML = '🟡 MEDIUM';
-                    cell.className = 'priority-medium';
-                } else if (count > 0) {
-                    cell.innerHTML = '🟢 LOW';
-                    cell.className = 'priority-low';
-                } else {
-                    cell.innerHTML = '—';
-                    cell.style.color = '#a0aec0';
-                }
-                priorityRow.appendChild(cell);
-            });
-            
-            tbody.appendChild(priorityRow);
-            
-            updateStats();
+                tbody.appendChild(priorityRow);
+                
+                // Calculate Total Rating
+                sessions.forEach(session => {
+                    totalRating += session.rating;
+                });
+                const avgRating = totalRating / sessions.length;
+
+                // Update stats based on full data
+                updateStats(highPriorityCount, avgRating);
+            }
         }
-        
-        function updateStats() {
+
+        // Function to update the summary cards below the table
+        function updateStats(highPriorityCount, avgRating) {
             let totalFriction = 0;
-            let highPriority = 0;
             
             allColumns.forEach(column => {
-                const sessionsWithIssues = sessions.filter(s => s.issues[column]);
-                const count = sessionsWithIssues.length;
-                
-                // Count total friction points, not just sessions
-                const frictionPoints = sessionsWithIssues.reduce((sum, session) => {
-                    const issues = session.issues[column];
-                    return sum + (Array.isArray(issues) ? issues.length : 1);
-                }, 0);
-                
-                totalFriction += frictionPoints;
-                
-                const percentage = (count / sessions.length) * 100;
-                if (percentage >= 40 || frictionPoints >= 8) highPriority++;
+                sessions.forEach(session => {
+                    // Ensure the issues array exists before accessing length
+                    if (session.issues[column]) {
+                        totalFriction += session.issues[column].length;
+                    }
+                });
             });
             
             document.getElementById('totalFriction').textContent = totalFriction;
-            document.getElementById('highPriority').textContent = highPriority;
-            document.getElementById('avgIssues').textContent = (totalFriction / sessions.length).toFixed(1);
+            document.getElementById('highPriority').textContent = highPriorityCount;
+            document.getElementById('avgIssues').textContent = avgRating.toFixed(1);
         }
-        
-        function filterByStation(station) {
+
+        // Unified filtering function
+        function filterTable() {
+            const roleFilterValue = document.getElementById('roleFilter').value;
+            const severityFilterValue = document.getElementById('severityFilter').value;
             const rows = document.querySelectorAll('#dataRows tr:not(.summary-row):not(.priority-row)');
+
+            // 1. Filter by Role
             rows.forEach(row => {
-                if (station === 'all' || row.dataset.station === station) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+                const rowRole = row.dataset.role;
+                const isRoleMatch = roleFilterValue === 'all' || rowRole === roleFilterValue;
+                row.style.display = isRoleMatch ? '' : 'none';
             });
+
+            // 2. Filter by Severity (Hides/Shows Columns)
+            const table = document.getElementById('problemMap');
+            const thead = table.querySelector('thead tr');
+            const priorityRow = table.querySelector('.priority-row');
+            
+            // Iterate over all columns (starting from index 1 to skip Session ID)
+            allColumns.forEach((column, index) => {
+                // The index in the table rows/header is 1 more than the array index
+                const columnIndex = index + 1; 
+
+                // Check if the priority row element exists before accessing its children
+                if (!priorityRow) return;
+
+                // Get the priority level from the priority row's cell data-attribute
+                const priorityCell = priorityRow.children[columnIndex];
+                const columnPriority = priorityCell.dataset.priority;
+                
+                const isSeverityMatch = severityFilterValue === 'all' || columnPriority === severityFilterValue;
+
+                // Toggle Header Cell
+                if (thead.children[columnIndex]) thead.children[columnIndex].style.display = isSeverityMatch ? '' : 'none';
+                
+                // Toggle Priority/Summary Cells
+                const summaryRow = table.querySelector('.summary-row');
+                if (summaryRow && summaryRow.children[columnIndex]) summaryRow.children[columnIndex].style.display = isSeverityMatch ? '' : 'none';
+                if (priorityRow && priorityRow.children[columnIndex]) priorityRow.children[columnIndex].style.display = isSeverityMatch ? '' : 'none';
+
+                // Toggle Data Cells
+                rows.forEach(row => {
+                    // Only apply cell display changes if the row itself is visible (passed role filter)
+                    if (row.style.display !== 'none' && row.children[columnIndex]) {
+                        row.children[columnIndex].style.display = isSeverityMatch ? '' : 'none';
+                    }
+                });
+            });
+            
+            // Hide summary/priority rows when a specific filter is active
+            const summaryRow = table.querySelector('.summary-row');
+            const priorityRow = table.querySelector('.priority-row');
+            if (roleFilterValue !== 'all' || severityFilterValue !== 'all') {
+                if (summaryRow) summaryRow.style.display = 'none';
+                if (priorityRow) priorityRow.style.display = 'none';
+            } else {
+                if (summaryRow) summaryRow.style.display = '';
+                if (priorityRow) priorityRow.style.display = '';
+            }
+        }
+
+
+        // Custom Alert/Message Box implementation (replacing alert())
+        function showMessage(title, message) {
+            const tempDiv = document.createElement('div');
+            tempDiv.style.cssText = `
+                position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                z-index: 10000; max-width: 90%; width: 400px; text-align: center;
+                border-top: 5px solid #764ba2; font-family: 'Inter', sans-serif;
+            `;
+
+            tempDiv.innerHTML = `
+                <h3 style="margin-bottom: 15px; color: #2d3748; font-size: 18px;">${title}</h3>
+                <p style="margin-bottom: 20px; color: #4a5568; white-space: pre-wrap; font-size: 14px; text-align: left;">${message}</p>
+                <button onclick="this.parentNode.remove()" style="
+                    background: #764ba2; color: white; padding: 10px 20px; border: none;
+                    border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;
+                    transition: background 0.2s;
+                ">OK</button>
+            `;
+            document.body.appendChild(tempDiv);
         }
         
-        function filterBySeverity(severity) {
-            // This would filter columns based on severity
-            alert(`Filter by ${severity} severity - Feature demonstration`);
-        }
-        
+        // Functions originally using alert()
         function runTagger() {
-            alert('🤖 Tagger Gem Running...\n\nScanning 12 transcripts from Drive folder...\nMatching friction phrases from GEM_CONFIG...\nMarking cells red with evidence quotes...\n\n✅ Complete! Red cells now populated.');
+            const message = "Transcripts are loaded. The raw interview data has been processed into structured problem quotes.";
+            showMessage('🤖 Data Processing Complete', message);
         }
         
         function runSummarizer() {
-            alert('🤖 Summarizer Gem Running...\n\nGrouping friction points by task...\nGenerating concise summaries...\nCalculating priority levels...\n\n✅ Complete! Summary and Priority rows updated.');
+            const message = "Friction points grouped and analyzed by topic. Priority (HIGH/MEDIUM/LOW) assigned based on frequency and severity of user comments.\n\nKey finding: Lack of **Team Conflict Visibility** for managers is a High Priority issue.";
+            showMessage('📊 Analysis Complete', message);
         }
-        
-        // Tooltip functionality
+
+        // Tooltip functionality (based on provided JS)
         const tooltip = document.getElementById('tooltip');
         
         document.addEventListener('mouseover', (e) => {
@@ -996,8 +1071,20 @@
                     tooltip.classList.add('show');
                     
                     const rect = e.target.getBoundingClientRect();
-                    tooltip.style.left = Math.min(rect.left, window.innerWidth - 420) + 'px';
-                    tooltip.style.top = (rect.bottom + 10) + 'px';
+                    
+                    // Position the tooltip dynamically to avoid running off the screen
+                    let leftPos = rect.left;
+                    let topPos = rect.bottom + 10;
+                    
+                    if (leftPos + tooltip.offsetWidth > window.innerWidth - 20) {
+                        leftPos = window.innerWidth - tooltip.offsetWidth - 20;
+                    }
+                    if (leftPos < 20) {
+                        leftPos = 20;
+                    }
+
+                    tooltip.style.left = leftPos + 'px';
+                    tooltip.style.top = topPos + 'px';
                 }
             }
         });
@@ -1008,8 +1095,16 @@
             }
         });
         
-        // Initialize
-        renderTable();
+        // Initialize table rendering on load
+        window.onload = function() {
+            renderTable();
+        };
+
+        
+        // Expose functions globally for use in HTML event handlers
+        window.filterTable = filterTable;
+        window.runTagger = runTagger;
+        window.runSummarizer = runSummarizer;
     </script>
 </body>
 </html>
