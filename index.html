@@ -237,6 +237,12 @@
             font-weight: 600;
         }
         
+        .priority-row td {
+            padding: 16px 8px;
+            vertical-align: top;
+            max-width: 200px;
+        }
+        
         .priority-high {
             color: #c53030;
         }
@@ -455,8 +461,8 @@
                 <div class="value" id="totalFriction">0</div>
             </div>
             <div class="stat-card">
-                <h3>High Priority Issues</h3>
-                <div class="value" id="highPriority">0</div>
+                <h3>Categories with Issues</h3>
+                <div class="value" id="categoriesWithIssues">0</div>
             </div>
             <div class="stat-card">
                 <h3>Sessions Analyzed</h3>
@@ -819,40 +825,55 @@
             
             tbody.appendChild(summaryRow);
             
-            // Priority row
-            const priorityRow = document.createElement('tr');
-            priorityRow.className = 'priority-row';
-            priorityRow.innerHTML = '<td><strong>PRIORITY</strong></td>';
+            // Summary text row with participant insights
+            const summaryTextRow = document.createElement('tr');
+            summaryTextRow.className = 'priority-row';
+            summaryTextRow.innerHTML = '<td><strong>KEY INSIGHTS</strong></td>';
+            
+            // Define summaries for each column based on participant feedback
+            const columnSummaries = {
+                "Technical Setup": "Prototype slowness forced workarounds across multiple sessions. Rafaela switched laptops, Raúl closed/reopened links repeatedly. Connection issues impacted testing flow and user confidence.",
+                "Day Selection": "Generally intuitive for both collaborators. Users successfully selected workdays, understood to skip weekends/holidays. Mark and Raúl correctly selected only business days for week requests.",
+                "Day Modification": "Process requires deselect-then-select-then-confirm workflow. Mariam, Ferrán, and Mark all navigated this successfully but required multiple steps for simple changes.",
+                "Vacation Balance Info": "Mark highlighted counting clarity issues. Total approved days don't remain visible during modifications. Collaborators struggle to track remaining balance while making requests.",
+                "Color Coding": "Jose Mari emphasized matching existing planning tool colors for easier adoption. Gold days should be red/shaded to signal blocked periods. Current scheme conflicts with user expectations.",
+                "Overlap Visibility": "Alex and Rafaela currently use external Excel for this critical functionality. Managers need to balance veteran/new employee leave. System must integrate overlap tracking natively.",
+                "Approval Flow": "Raquel demonstrated approve/reject flow works per-person. Managers can handle day-by-day or bulk actions. Individual approval mechanism functions but lacks team context.",
+                "Rejection Handling": "Interviewers intentionally avoid blocking re-requests since manager conversations often follow rejections. Decisions may change after discussion, requiring flexibility in the system.",
+                "Calendar Navigation": "Month changes required interviewer guidance across sessions. Navigation elements acknowledged as prototype scaffolding, not final product features.",
+                "Manager Overview": "Jose Mari looks first at high sales days, then overlap counts. Rafaela wants global employee view with bulk actions. Both need comprehensive team visibility upfront.",
+                "Individual View": "Raquel successfully clicks profiles to review per-person requests. Can approve/reject selectively or use bulk buttons. View works but loses critical overlap information.",
+                "Counter Visibility": "Jose Mari and Alex both identified overlap counters disappearing in individual view as critical flaw. Managers cannot see approved colleague counts when reviewing requests, risking over-approval.",
+                "High-Traffic Days": "Jose Mari and Raquel want gold days customizable by section/department, not store-wide. Cycling department's peaks differ from general store. Section-level configuration essential.",
+                "Notification System": "Marta highlighted missing rejection alerts for collaborators. Employees need to know when days are rejected to initiate manager conversation. Current system lacks this feedback loop.",
+                "Legend Clarity": "Rafaela found 'bancos' terminology confusing. Legend nomenclature needs simplification for immediate comprehension across all user types.",
+                "Integration Needs": "Rafaela requires sales/billing data by week and service indicators instead of sales volume. Currently uses Excel and MyGame for these metrics. Integration critical for adoption.",
+                "Cancellation Process": "Marta emphasized approved days must remain approved until manager accepts cancellation. Without alert system, managers rely on outdated planning. User-initiated changes need approval workflow.",
+                "Hover/Interaction": "Raquel prefers hover-to-see over click-to-open for viewing requests. Wants weekly view pop-up showing all names at once rather than individual day clicks.",
+                "Screen Density": "Raquel prefers old system's compact view showing whole year/team without scrolling. Current prototype requires more navigation. Trade-off between detail and overview density.",
+                "Automation Understanding": "Jose Mari called automation 'marvelous' for solving hour calculation struggles. Marta noted it enables flexibility versus old 'engraved in stone' agreements. Strong positive reception.",
+                "Weekend Requests": "Raquel identified missing weekend request functionality as key scheduling organization gap. Free weekends are part of current planning process not reflected in prototype."
+            };
             
             allColumns.forEach(column => {
                 const cell = document.createElement('td');
                 const sessionsWithIssues = sessions.filter(s => s.issues[column]);
                 const count = sessionsWithIssues.length;
-                const percentage = (count / sessions.length) * 100;
                 
-                // Calculate total friction points for severity
-                const totalFrictionPoints = sessionsWithIssues.reduce((sum, session) => {
-                    const issues = session.issues[column];
-                    return sum + (Array.isArray(issues) ? issues.length : 1);
-                }, 0);
-                
-                if (percentage >= 40 || totalFrictionPoints >= 6) {
-                    cell.innerHTML = '🔴 HIGH';
-                    cell.className = 'priority-high';
-                } else if (percentage >= 20 || totalFrictionPoints >= 3) {
-                    cell.innerHTML = '🟡 MEDIUM';
-                    cell.className = 'priority-medium';
-                } else if (count > 0) {
-                    cell.innerHTML = '🟢 LOW';
-                    cell.className = 'priority-low';
+                if (count > 0 && columnSummaries[column]) {
+                    cell.textContent = columnSummaries[column];
+                    cell.style.fontSize = '11px';
+                    cell.style.lineHeight = '1.5';
+                    cell.style.color = '#2d3748';
+                    cell.style.fontWeight = 'normal';
                 } else {
-                    cell.innerHTML = '—';
+                    cell.textContent = '—';
                     cell.style.color = '#a0aec0';
                 }
-                priorityRow.appendChild(cell);
+                summaryTextRow.appendChild(cell);
             });
             
-            tbody.appendChild(priorityRow);
+            tbody.appendChild(summaryTextRow);
             
             updateStats();
         }
