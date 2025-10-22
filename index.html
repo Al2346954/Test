@@ -1,5 +1,1015 @@
-<!doctype html>
-<html>
-  <head><meta charset="utf-8"><title>It works</title></head>
-  <body><h1>Hello from GitHub Pages</h1></body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>London Underground Usability Problem Map - Interactive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .header .gemini-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #38a169;
+        }
+        
+        .filter-label {
+            font-size: 14px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+        
+        select {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: calc(100vh - 300px);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        th {
+            background: #2d3748;
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+            font-size: 11px;
+            border-right: 1px solid #4a5568;
+        }
+        
+        th:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            min-width: 120px;
+        }
+        
+        td {
+            padding: 12px 8px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            min-width: 100px;
+            max-width: 150px;
+        }
+        
+        td:first-child {
+            position: sticky;
+            left: 0;
+            background: white;
+            font-weight: 600;
+            z-index: 5;
+            border-right: 2px solid #cbd5e0;
+        }
+        
+        .cell-red {
+            background: #fed7d7;
+            color: #742a2a;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .cell-red:hover {
+            background: #fc8181;
+            transform: scale(1.02);
+            z-index: 15;
+        }
+        
+        .cell-red.multiple {
+            background: #fc8181;
+            font-weight: 600;
+        }
+        
+        .cell-red.multiple::after {
+            content: attr(data-count);
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            background: #c53030;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        
+        .friction-list {
+            margin: 0;
+            padding-left: 16px;
+            list-style: none;
+        }
+        
+        .friction-list li {
+            margin: 6px 0;
+            padding-left: 12px;
+            position: relative;
+        }
+        
+        .friction-list li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #f56565;
+            font-weight: bold;
+        }
+        
+        .cell-green {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .cell-neutral {
+            background: #f7fafc;
+            color: #a0aec0;
+            text-align: center;
+        }
+        
+        .summary-row {
+            background: #edf2f7;
+            font-weight: 600;
+            border-top: 3px solid #4a5568;
+        }
+        
+        .summary-row td {
+            padding: 16px 8px;
+            font-size: 12px;
+            color: #2d3748;
+        }
+        
+        .priority-row {
+            background: #e6fffa;
+            font-weight: 600;
+        }
+        
+        .priority-high {
+            color: #c53030;
+        }
+        
+        .priority-medium {
+            color: #d69e2e;
+        }
+        
+        .priority-low {
+            color: #38a169;
+        }
+        
+        .tooltip {
+            position: fixed;
+            background: #2d3748;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            max-width: 400px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: none;
+            pointer-events: none;
+            line-height: 1.6;
+        }
+        
+        .tooltip.show {
+            display: block;
+        }
+        
+        .tooltip strong {
+            display: block;
+            margin-bottom: 10px;
+            color: #fbbf24;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 6px;
+        }
+        
+        .tooltip .friction-count {
+            display: inline-block;
+            background: #c53030;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+        
+        .link-icon {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 16px;
+            margin-right: 5px;
+        }
+        
+        .stats-panel {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .stat-card h3 {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .legend {
+            padding: 15px 30px;
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>🚇 London Underground Usability Problem Map</h1>
+                <p style="margin-top: 8px; opacity: 0.9;">Oct 2025 Testing Cycle - 12 Sessions Across 6 Stations</p>
+            </div>
+            <div class="gemini-badge">
+                ✨ Powered by Gemini
+            </div>
+        </div>
+        
+        <div class="legend">
+            <strong>Legend:</strong>
+            <div class="legend-item">
+                <div class="legend-box" style="background: #fed7d7;"></div>
+                <span>Friction Detected</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: #f7fafc;"></div>
+                <span>No Issues</span>
+            </div>
+            <div class="legend-item">
+                <span style="color: #718096;">Hover red cells for evidence quotes</span>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="runTagger()">▶ Run Tagger Gem</button>
+            <button class="btn btn-secondary" onclick="runSummarizer()">▶ Run Summarizer Gem</button>
+            <span class="filter-label">Filter by:</span>
+            <select onchange="filterByStation(this.value)">
+                <option value="all">All Stations</option>
+                <option value="kings-cross">King's Cross</option>
+                <option value="oxford-circus">Oxford Circus</option>
+                <option value="victoria">Victoria</option>
+                <option value="bank">Bank</option>
+                <option value="waterloo">Waterloo</option>
+                <option value="liverpool-st">Liverpool Street</option>
+            </select>
+            <select onchange="filterBySeverity(this.value)">
+                <option value="all">All Severity Levels</option>
+                <option value="high">High Priority Only</option>
+                <option value="medium">Medium Priority</option>
+            </select>
+        </div>
+        
+        <div class="table-container">
+            <table id="problemMap">
+                <thead>
+                    <tr>
+                        <th>Session ID</th>
+                        <th>Ticket Purchase</th>
+                        <th>Contactless Payment</th>
+                        <th>Oyster Card Top-up</th>
+                        <th>Zone Understanding</th>
+                        <th>Route Planning</th>
+                        <th>Direction Signs</th>
+                        <th>Platform Finding</th>
+                        <th>Exit Navigation</th>
+                        <th>Interchange Flow</th>
+                        <th>Elizabeth Line Connection</th>
+                        <th>Step-free Access</th>
+                        <th>Lift Availability</th>
+                        <th>Audio Announcements</th>
+                        <th>Visual Displays</th>
+                        <th>Crowding Management</th>
+                        <th>Peak Time Navigation</th>
+                        <th>Mobile Signal</th>
+                        <th>WiFi Access</th>
+                        <th>Customer Service Visibility</th>
+                        <th>Emergency Info</th>
+                        <th>Toilet Finding</th>
+                    </tr>
+                </thead>
+                <tbody id="dataRows">
+                    <!-- Data populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="stats-panel">
+            <div class="stat-card">
+                <h3>Total Friction Points</h3>
+                <div class="value" id="totalFriction">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>High Priority Issues</h3>
+                <div class="value" id="highPriority">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Sessions Analyzed</h3>
+                <div class="value">12</div>
+            </div>
+            <div class="stat-card">
+                <h3>Avg Issues per Session</h3>
+                <div class="value" id="avgIssues">0.0</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <script>
+        const sessions = [
+            {
+                id: "Tourist_01",
+                station: "kings-cross",
+                profile: "First-time visitor from US",
+                issues: {
+                    "Ticket Purchase": [
+                        "couldn't find contactless option on machine",
+                        "interface only in English, needed translation",
+                        "didn't know if I needed Oyster card or could use credit card"
+                    ],
+                    "Zone Understanding": [
+                        "pricing zones made no sense",
+                        "zone map colors confusing",
+                        "didn't understand why same journey costs different at peak times"
+                    ],
+                    "Route Planning": [
+                        "Oyster vs Travelcard confusing",
+                        "app showed different route than station map"
+                    ],
+                    "Elizabeth Line Connection": [
+                        "didn't know how to transfer",
+                        "Elizabeth Line not clearly marked on main tube map"
+                    ],
+                    "Exit Navigation": [
+                        "too many exit options, got lost",
+                        "exit signs didn't match street names I knew"
+                    ]
+                }
+            },
+            {
+                id: "Commuter_02",
+                station: "oxford-circus",
+                profile: "Daily commuter, 2 years experience",
+                issues: {
+                    "Direction Signs": [
+                        "couldn't tell which direction northbound",
+                        "direction arrows contradicted each other at junction"
+                    ],
+                    "Platform Finding": [
+                        "platform numbers hidden behind crowd",
+                        "digital boards showed wrong platform number"
+                    ],
+                    "Peak Time Navigation": [
+                        "impossible to move during rush hour",
+                        "no crowd control at bottleneck points",
+                        "nearly missed train due to slow-moving crowd"
+                    ],
+                    "Visual Displays": [
+                        "delay information came too late to change route"
+                    ]
+                }
+            },
+            {
+                id: "Senior_03",
+                station: "victoria",
+                profile: "65+ with mobility issues",
+                issues: {
+                    "Ticket Purchase": [
+                        "screen text too small to read",
+                        "touch screen not responsive to light touch",
+                        "no option to increase text size"
+                    ],
+                    "Step-free Access": [
+                        "step-free route not clearly marked",
+                        "signs too high up on wall to read easily",
+                        "step-free map at entrance too detailed and confusing"
+                    ],
+                    "Lift Availability": [
+                        "lift was out of service, no alternative shown",
+                        "no estimated wait time displayed",
+                        "lift arrived but was full, had to wait for next"
+                    ],
+                    "Audio Announcements": [
+                        "couldn't hear announcements clearly",
+                        "announcements too fast",
+                        "background noise drowned out important info"
+                    ],
+                    "Exit Navigation": [
+                        "too many corridor options"
+                    ],
+                    "Customer Service Visibility": [
+                        "couldn't find staff to ask for help"
+                    ]
+                }
+            },
+            {
+                id: "Tourist_04",
+                station: "bank",
+                profile: "European tourist with luggage",
+                issues: {
+                    "Zone Understanding": [
+                        "zone map incomprehensible",
+                        "didn't know Bank and Monument count as one station"
+                    ],
+                    "Interchange Flow": [
+                        "Bank-Monument interchange confusing",
+                        "multiple routes shown but no indication which is fastest",
+                        "got lost in underground passages"
+                    ],
+                    "Platform Finding": [
+                        "signs contradicted each other",
+                        "couldn't find Northern line platform after following signs"
+                    ],
+                    "Customer Service Visibility": [
+                        "couldn't find staff when needed",
+                        "help point button didn't work"
+                    ],
+                    "Exit Navigation": [
+                        "came out wrong exit, had to walk around block"
+                    ]
+                }
+            },
+            {
+                id: "Parent_05",
+                station: "waterloo",
+                profile: "Parent with stroller and 2 children",
+                issues: {
+                    "Step-free Access": [
+                        "no buggy access visible",
+                        "step-free route went through 3 different levels",
+                        "accessible entrance not marked from main street"
+                    ],
+                    "Lift Availability": [
+                        "lift queue too long, no alternative",
+                        "lift too small for buggy plus other passengers",
+                        "no priority system for parents with strollers"
+                    ],
+                    "Platform Finding": [
+                        "couldn't find platform from main entrance",
+                        "had to backtrack twice with stroller"
+                    ],
+                    "Toilet Finding": [
+                        "no clear signs to accessible toilets",
+                        "family toilet located outside paid area only"
+                    ],
+                    "Exit Navigation": [
+                        "stroller got stuck in barriers",
+                        "wide barrier gate not clearly marked"
+                    ],
+                    "Customer Service Visibility": [
+                        "no staff available to help open wide gate"
+                    ]
+                }
+            },
+            {
+                id: "Student_06",
+                station: "liverpool-st",
+                profile: "University student, international",
+                issues: {
+                    "Contactless Payment": [
+                        "didn't know about daily cap",
+                        "worried about being overcharged",
+                        "no way to check balance before journey"
+                    ],
+                    "Route Planning": [
+                        "Elizabeth Line connection unclear on map",
+                        "didn't know Elizabeth Line counts as separate fare zone",
+                        "app and physical map showed different information"
+                    ],
+                    "Visual Displays": [
+                        "departure boards don't show real-time delays",
+                        "platform changes not updated quickly enough"
+                    ],
+                    "WiFi Access": [
+                        "couldn't connect to WiFi at platform level",
+                        "WiFi login required email, wouldn't accept university email"
+                    ],
+                    "Oyster Card Top-up": [
+                        "top-up machine wouldn't accept foreign debit card"
+                    ]
+                }
+            },
+            {
+                id: "Business_07",
+                station: "kings-cross",
+                profile: "Business traveler with carry-on",
+                issues: {
+                    "Interchange Flow": [
+                        "King's Cross to St Pancras not intuitive",
+                        "had to exit and re-enter through different entrance",
+                        "signage assumed I knew the two stations are connected"
+                    ],
+                    "Mobile Signal": [
+                        "lost signal in underground passages",
+                        "couldn't check email while waiting for train"
+                    ],
+                    "Exit Navigation": [
+                        "wrong exit, had to re-enter station",
+                        "exit numbering system makes no sense"
+                    ],
+                    "Platform Finding": [
+                        "platform for Eurostar not clearly signed from tube platforms"
+                    ]
+                }
+            },
+            {
+                id: "Tourist_08",
+                station: "oxford-circus",
+                profile: "Group of 4 tourists from Asia",
+                issues: {
+                    "Ticket Purchase": [
+                        "group ticket option not clear",
+                        "machine didn't explain if group discount exists",
+                        "each person bought separately, may have overpaid"
+                    ],
+                    "Route Planning": [
+                        "Circle line vs Central line confusing",
+                        "map colors too similar to distinguish",
+                        "no explanation of which line is faster for our destination"
+                    ],
+                    "Direction Signs": [
+                        "bilingual signs would help",
+                        "icons alone not sufficient for understanding",
+                        "romanization of station names inconsistent"
+                    ],
+                    "Crowding Management": [
+                        "felt unsafe due to overcrowding",
+                        "group got separated on platform",
+                        "no clear queuing system for train doors"
+                    ],
+                    "Audio Announcements": [
+                        "announcements only in English, couldn't understand"
+                    ]
+                }
+            },
+            {
+                id: "Elderly_09",
+                station: "victoria",
+                profile: "78-year-old using walking stick",
+                issues: {
+                    "Step-free Access": [
+                        "step-free signs too high to read",
+                        "needed magnifying glass to read small text on maps",
+                        "no tactile paving to indicate step-free paths"
+                    ],
+                    "Audio Announcements": [
+                        "announcements too fast",
+                        "couldn't distinguish important info from routine announcements",
+                        "volume inconsistent across different platforms"
+                    ],
+                    "Customer Service Visibility": [
+                        "no staff at platform level",
+                        "help point too far to walk to with mobility issues",
+                        "couldn't get assistance when needed"
+                    ],
+                    "Emergency Info": [
+                        "emergency help points not obvious",
+                        "emergency instructions written too small"
+                    ],
+                    "Visual Displays": [
+                        "digital screens refresh too quickly, couldn't read in time"
+                    ],
+                    "Lift Availability": [
+                        "lift door closes too quickly for slow walkers"
+                    ]
+                }
+            },
+            {
+                id: "Commuter_10",
+                station: "bank",
+                profile: "Regular commuter during engineering works",
+                issues: {
+                    "Visual Displays": [
+                        "disruption info arrived too late",
+                        "screens showed conflicting closure information",
+                        "no estimated journey time with disruptions"
+                    ],
+                    "Route Planning": [
+                        "alternative routes not suggested",
+                        "app didn't account for current closures",
+                        "had to ask multiple staff members for best alternative"
+                    ],
+                    "Platform Finding": [
+                        "temporary signs conflicted with permanent ones",
+                        "paper notices stuck over digital displays",
+                        "replacement bus service poorly signed"
+                    ],
+                    "Audio Announcements": [
+                        "repeated disruption messages but no solutions offered"
+                    ]
+                }
+            },
+            {
+                id: "Disabled_11",
+                station: "waterloo",
+                profile: "Wheelchair user",
+                issues: {
+                    "Step-free Access": [
+                        "step-free route involved 3 lifts with no map",
+                        "accessible entrance poorly marked from street level",
+                        "step-free route added 10 minutes to journey",
+                        "no indication which platforms are accessible"
+                    ],
+                    "Lift Availability": [
+                        "one lift broken, no update on wait time",
+                        "lift alarm button positioned too high to reach from wheelchair",
+                        "lift arrived but wheelchair couldn't fit with other passengers"
+                    ],
+                    "Platform Finding": [
+                        "accessible platform entrance hard to locate",
+                        "wheelchair ramp not visible from main corridor"
+                    ],
+                    "Customer Service Visibility": [
+                        "had to call help line, no visible staff",
+                        "staff response time over 15 minutes",
+                        "no dedicated assistance point for disabled passengers"
+                    ],
+                    "Emergency Info": [
+                        "emergency protocols unclear for wheelchair users",
+                        "evacuation chair locations not marked"
+                    ],
+                    "Audio Announcements": [
+                        "no visual equivalent for audio announcements on platform"
+                    ]
+                }
+            },
+            {
+                id: "Teen_12",
+                station: "liverpool-st",
+                profile: "16-year-old first solo journey",
+                issues: {
+                    "Oyster Card Top-up": [
+                        "top-up machine rejected card twice",
+                        "error message didn't explain what was wrong",
+                        "no cash option available at this machine"
+                    ],
+                    "Route Planning": [
+                        "didn't understand zone boundaries",
+                        "app required account creation, just wanted directions",
+                        "multiple route options shown but no explanation of differences"
+                    ],
+                    "WiFi Access": [
+                        "WiFi login process too complicated",
+                        "had to provide email and phone number just to access WiFi",
+                        "connection dropped after 5 minutes"
+                    ],
+                    "Visual Displays": [
+                        "screens too high to read comfortably",
+                        "bright screen glare made reading difficult"
+                    ],
+                    "Contactless Payment": [
+                        "didn't know if phone contactless payment would work"
+                    ]
+                }
+            }
+        ];
+        
+        const allColumns = [
+            "Ticket Purchase", "Contactless Payment", "Oyster Card Top-up", "Zone Understanding",
+            "Route Planning", "Direction Signs", "Platform Finding", "Exit Navigation",
+            "Interchange Flow", "Elizabeth Line Connection", "Step-free Access", "Lift Availability",
+            "Audio Announcements", "Visual Displays", "Crowding Management", "Peak Time Navigation",
+            "Mobile Signal", "WiFi Access", "Customer Service Visibility", "Emergency Info", "Toilet Finding"
+        ];
+        
+        function renderTable() {
+            const tbody = document.getElementById('dataRows');
+            tbody.innerHTML = '';
+            
+            // Data rows
+            sessions.forEach(session => {
+                const row = document.createElement('tr');
+                row.dataset.station = session.station;
+                
+                // Session ID column
+                const idCell = document.createElement('td');
+                idCell.innerHTML = `<a href="#" class="link-icon">📄</a>${session.id}`;
+                row.appendChild(idCell);
+                
+                // Issue columns
+                allColumns.forEach(column => {
+                    const cell = document.createElement('td');
+                    if (session.issues[column]) {
+                        const issues = Array.isArray(session.issues[column]) 
+                            ? session.issues[column] 
+                            : [session.issues[column]];
+                        
+                        const count = issues.length;
+                        cell.className = count > 1 ? 'cell-red multiple' : 'cell-red';
+                        
+                        // Show preview of first issue
+                        cell.textContent = `"${issues[0].substring(0, 25)}..."`;
+                        
+                        // Store all issues in data attribute
+                        cell.dataset.issues = JSON.stringify(issues);
+                        cell.dataset.count = count;
+                        cell.dataset.session = session.id;
+                        cell.dataset.column = column;
+                    } else {
+                        cell.className = 'cell-neutral';
+                        cell.textContent = '—';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                tbody.appendChild(row);
+            });
+            
+            // Summary row
+            const summaryRow = document.createElement('tr');
+            summaryRow.className = 'summary-row';
+            summaryRow.innerHTML = '<td><strong>SUMMARY</strong></td>';
+            
+            allColumns.forEach(column => {
+                const cell = document.createElement('td');
+                const sessionsWithIssues = sessions.filter(s => s.issues[column]);
+                const count = sessionsWithIssues.length;
+                
+                // Count total friction points across all sessions
+                const totalFrictionPoints = sessionsWithIssues.reduce((sum, session) => {
+                    const issues = session.issues[column];
+                    return sum + (Array.isArray(issues) ? issues.length : 1);
+                }, 0);
+                
+                if (count > 0) {
+                    const percentage = Math.round((count / sessions.length) * 100);
+                    cell.innerHTML = `${count}/${sessions.length} users<br><span style="font-size:10px;color:#718096;">(${totalFrictionPoints} friction points)</span>`;
+                } else {
+                    cell.textContent = 'No issues';
+                    cell.style.color = '#a0aec0';
+                }
+                summaryRow.appendChild(cell);
+            });
+            
+            tbody.appendChild(summaryRow);
+            
+            // Priority row
+            const priorityRow = document.createElement('tr');
+            priorityRow.className = 'priority-row';
+            priorityRow.innerHTML = '<td><strong>PRIORITY</strong></td>';
+            
+            allColumns.forEach(column => {
+                const cell = document.createElement('td');
+                const sessionsWithIssues = sessions.filter(s => s.issues[column]);
+                const count = sessionsWithIssues.length;
+                const percentage = (count / sessions.length) * 100;
+                
+                // Calculate total friction points for severity
+                const totalFrictionPoints = sessionsWithIssues.reduce((sum, session) => {
+                    const issues = session.issues[column];
+                    return sum + (Array.isArray(issues) ? issues.length : 1);
+                }, 0);
+                
+                if (percentage >= 40 || totalFrictionPoints >= 8) {
+                    cell.innerHTML = '🔴 HIGH';
+                    cell.className = 'priority-high';
+                } else if (percentage >= 20 || totalFrictionPoints >= 4) {
+                    cell.innerHTML = '🟡 MEDIUM';
+                    cell.className = 'priority-medium';
+                } else if (count > 0) {
+                    cell.innerHTML = '🟢 LOW';
+                    cell.className = 'priority-low';
+                } else {
+                    cell.innerHTML = '—';
+                    cell.style.color = '#a0aec0';
+                }
+                priorityRow.appendChild(cell);
+            });
+            
+            tbody.appendChild(priorityRow);
+            
+            updateStats();
+        }
+        
+        function updateStats() {
+            let totalFriction = 0;
+            let highPriority = 0;
+            
+            allColumns.forEach(column => {
+                const sessionsWithIssues = sessions.filter(s => s.issues[column]);
+                const count = sessionsWithIssues.length;
+                
+                // Count total friction points, not just sessions
+                const frictionPoints = sessionsWithIssues.reduce((sum, session) => {
+                    const issues = session.issues[column];
+                    return sum + (Array.isArray(issues) ? issues.length : 1);
+                }, 0);
+                
+                totalFriction += frictionPoints;
+                
+                const percentage = (count / sessions.length) * 100;
+                if (percentage >= 40 || frictionPoints >= 8) highPriority++;
+            });
+            
+            document.getElementById('totalFriction').textContent = totalFriction;
+            document.getElementById('highPriority').textContent = highPriority;
+            document.getElementById('avgIssues').textContent = (totalFriction / sessions.length).toFixed(1);
+        }
+        
+        function filterByStation(station) {
+            const rows = document.querySelectorAll('#dataRows tr:not(.summary-row):not(.priority-row)');
+            rows.forEach(row => {
+                if (station === 'all' || row.dataset.station === station) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        function filterBySeverity(severity) {
+            // This would filter columns based on severity
+            alert(`Filter by ${severity} severity - Feature demonstration`);
+        }
+        
+        function runTagger() {
+            alert('🤖 Tagger Gem Running...\n\nScanning 12 transcripts from Drive folder...\nMatching friction phrases from GEM_CONFIG...\nMarking cells red with evidence quotes...\n\n✅ Complete! Red cells now populated.');
+        }
+        
+        function runSummarizer() {
+            alert('🤖 Summarizer Gem Running...\n\nGrouping friction points by task...\nGenerating concise summaries...\nCalculating priority levels...\n\n✅ Complete! Summary and Priority rows updated.');
+        }
+        
+        // Tooltip functionality
+        const tooltip = document.getElementById('tooltip');
+        
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.classList.contains('cell-red')) {
+                const issuesData = e.target.dataset.issues;
+                const session = e.target.dataset.session;
+                const column = e.target.dataset.column;
+                const count = e.target.dataset.count;
+                
+                if (issuesData) {
+                    const issues = JSON.parse(issuesData);
+                    
+                    let tooltipHTML = `<strong>${session} - ${column}`;
+                    if (count > 1) {
+                        tooltipHTML += `<span class="friction-count">${count} friction points</span>`;
+                    }
+                    tooltipHTML += `</strong>`;
+                    
+                    if (issues.length > 1) {
+                        tooltipHTML += '<ul class="friction-list">';
+                        issues.forEach(issue => {
+                            tooltipHTML += `<li>${issue}</li>`;
+                        });
+                        tooltipHTML += '</ul>';
+                    } else {
+                        tooltipHTML += `<div style="margin-top: 8px;">${issues[0]}</div>`;
+                    }
+                    
+                    tooltip.innerHTML = tooltipHTML;
+                    tooltip.classList.add('show');
+                    
+                    const rect = e.target.getBoundingClientRect();
+                    tooltip.style.left = Math.min(rect.left, window.innerWidth - 420) + 'px';
+                    tooltip.style.top = (rect.bottom + 10) + 'px';
+                }
+            }
+        });
+        
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.classList.contains('cell-red')) {
+                tooltip.classList.remove('show');
+            }
+        });
+        
+        // Initialize
+        renderTable();
+    </script>
+</body>
 </html>
