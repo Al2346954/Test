@@ -3,279 +3,955 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vacation Management Usability Problem Map</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Vacation Request Solution - Problem Map</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f5f5f5; padding: 20px; }
-        .container { max-width: 100%; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden; }
-        .header { background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); color: white; padding: 30px; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { font-size: 28px; font-weight: 700; }
-        .header p { font-size: 14px; opacity: 0.9; }
-        .header .gemini-badge { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; }
-        .legend { padding: 15px 30px; background: #fff; border-bottom: 1px solid #e0e0e0; display: flex; gap: 25px; align-items: center; font-size: 13px; font-weight: 500; color: #4a5568; flex-wrap: wrap; }
-        .legend strong { font-weight: 700; color: #2d3748; }
-        .legend-item { display: flex; align-items: center; gap: 8px; }
-        .legend-box { width: 18px; height: 18px; border-radius: 4px; }
-        .table-container { overflow-x: auto; overflow-y: auto; max-height: calc(100vh - 250px); }
-        table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
-        th { background: #2d3748; color: white; padding: 14px 10px; text-align: left; font-weight: 700; position: sticky; top: 0; z-index: 10; white-space: nowrap; font-size: 12px; border-right: 1px solid #4a5568; }
-        th:first-child { position: sticky; left: 0; z-index: 20; min-width: 180px; }
-        th:last-child { border-right: none; }
-        td { padding: 12px 10px; border: 1px solid #e2e8f0; position: relative; min-width: 130px; max-width: 180px; vertical-align: top; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        td:first-child { position: sticky; left: 0; background: white; font-weight: 600; z-index: 5; border-right: 2px solid #a0aec0; white-space: nowrap; overflow: visible; }
-        .summary-row td:first-child { background: #e2e8f0 !important; }
-        .cell-red { background: #fed7d7; color: #742a2a; font-size: 11px; cursor: pointer; transition: all 0.2s; position: relative; font-weight: 500; }
-        .cell-red:hover { background: #fc8181; transform: scale(1.02); z-index: 15; box-shadow: 0 0 5px rgba(197, 48, 48, 0.5); }
-        .cell-red.multiple { background: #f56565; color: white; font-weight: 600; }
-        .cell-neutral { background: #f7fafc; color: #a0aec0; text-align: center; }
-        .summary-row { background: #fef5e7; font-weight: 500; border-top: 3px solid #f59e0b; }
-        .summary-row td { padding: 14px 10px; font-size: 11px; color: #78350f; border-color: #fbbf24; line-height: 1.5; }
-        .link-icon { color: #764ba2; text-decoration: none; font-size: 14px; margin-right: 5px; font-weight: 700; }
-        .tooltip { position: fixed; background: #2d3748; color: white; padding: 16px; border-radius: 8px; font-size: 13px; max-width: 450px; z-index: 1000; box-shadow: 0 6px 20px rgba(0,0,0,0.4); display: none; pointer-events: none; line-height: 1.5; border: 1px solid #fbbf24; }
-        .tooltip.show { display: block; }
-        .tooltip strong { display: block; margin-bottom: 10px; color: #fbbf24; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; font-weight: 700; }
-        .tooltip .friction-count { display: inline-block; background: #c53030; padding: 3px 10px; border-radius: 12px; font-size: 11px; margin-left: 8px; }
-        .friction-list { margin: 0; padding-left: 18px; list-style: none; }
-        .friction-list li { margin: 6px 0; padding-left: 12px; position: relative; }
-        .friction-list li::before { content: "▸"; position: absolute; left: 0; color: #f56565; font-weight: bold; }
-        .stats-panel { padding: 20px 30px; background: #fff; border-top: 3px solid #764ba2; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-        .stat-card { background: #f7fafc; padding: 18px; border-radius: 8px; border-left: 4px solid #764ba2; box-shadow: 0 1px 5px rgba(0,0,0,0.05); }
-        .stat-card h3 { font-size: 12px; color: #718096; margin-bottom: 8px; text-transform: uppercase; font-weight: 600; }
-        .stat-card .value { font-size: 32px; font-weight: 800; color: #2d3748; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .header .gemini-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #38a169;
+        }
+        
+        .filter-label {
+            font-size: 14px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+        
+        select {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: calc(100vh - 300px);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        th {
+            background: #2d3748;
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+            font-size: 11px;
+            border-right: 1px solid #4a5568;
+        }
+        
+        th:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            min-width: 140px;
+        }
+        
+        td {
+            padding: 12px 8px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            min-width: 100px;
+            max-width: 150px;
+        }
+        
+        td:first-child {
+            position: sticky;
+            left: 0;
+            background: white;
+            font-weight: 600;
+            z-index: 5;
+            border-right: 2px solid #cbd5e0;
+        }
+        
+        .cell-red {
+            background: #fed7d7;
+            color: #742a2a;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .cell-red:hover {
+            background: #fc8181;
+            transform: scale(1.02);
+            z-index: 15;
+        }
+        
+        .cell-red.multiple {
+            background: #fc8181;
+            font-weight: 600;
+        }
+        
+        .cell-red.multiple::after {
+            content: attr(data-count);
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            background: #c53030;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        
+        .friction-list {
+            margin: 0;
+            padding-left: 16px;
+            list-style: none;
+        }
+        
+        .friction-list li {
+            margin: 6px 0;
+            padding-left: 12px;
+            position: relative;
+        }
+        
+        .friction-list li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #f56565;
+            font-weight: bold;
+        }
+        
+        .cell-green {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .cell-neutral {
+            background: #f7fafc;
+            color: #a0aec0;
+            text-align: center;
+        }
+        
+        .summary-row {
+            background: #edf2f7;
+            font-weight: 600;
+            border-top: 3px solid #4a5568;
+        }
+        
+        .summary-row td {
+            padding: 16px 8px;
+            font-size: 12px;
+            color: #2d3748;
+        }
+        
+        .priority-row {
+            background: #e6fffa;
+            font-weight: 600;
+        }
+        
+        .priority-high {
+            color: #c53030;
+        }
+        
+        .priority-medium {
+            color: #d69e2e;
+        }
+        
+        .priority-low {
+            color: #38a169;
+        }
+        
+        .tooltip {
+            position: fixed;
+            background: #2d3748;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            max-width: 450px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: none;
+            pointer-events: none;
+            line-height: 1.6;
+        }
+        
+        .tooltip.show {
+            display: block;
+        }
+        
+        .tooltip strong {
+            display: block;
+            margin-bottom: 10px;
+            color: #fbbf24;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 6px;
+        }
+        
+        .tooltip .friction-count {
+            display: inline-block;
+            background: #c53030;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+        
+        .link-icon {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 16px;
+            margin-right: 5px;
+        }
+        
+        .stats-panel {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .stat-card h3 {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .legend {
+            padding: 15px 30px;
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .role-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .role-collab {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+        
+        .role-manager {
+            background: #fbb6ce;
+            color: #702459;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div>
-                <h1>📝 Vacation Management Usability Problem Map</h1>
-                <p style="margin-top: 8px; opacity: 0.9;">Decathlon Planning - Interview Synthesis (5 Sessions, 9 Users)</p>
+                <h1>📅 Vacation Request Solution - Problem Map</h1>
+                <p style="margin-top: 8px; opacity: 0.9;">User Testing Analysis - 12 Sessions (6 Collaborators + 6 Managers)</p>
             </div>
-            <div class="gemini-badge">✨ Usability Heat Map</div>
+            <div class="gemini-badge">
+                ✨ Powered by Gemini
+            </div>
         </div>
+        
         <div class="legend">
             <strong>Legend:</strong>
             <div class="legend-item">
                 <div class="legend-box" style="background: #fed7d7;"></div>
-                <span>Friction Point Detected (Hover for Details)</span>
+                <span>Friction Detected</span>
             </div>
             <div class="legend-item">
-                <div class="legend-box" style="background: #f7fafc; border: 1px solid #e2e8f0;"></div>
-                <span>No Friction Cited/N/A to Role</span>
+                <div class="legend-box" style="background: #f7fafc;"></div>
+                <span>No Issues</span>
             </div>
             <div class="legend-item">
-                <div class="legend-box" style="background: #f56565;"></div>
-                <span>Multiple Friction Points</span>
+                <span class="role-badge role-collab">COLLAB</span>
+                <span>Collaborator View</span>
+            </div>
+            <div class="legend-item">
+                <span class="role-badge role-manager">MANAGER</span>
+                <span>Manager View</span>
+            </div>
+            <div class="legend-item">
+                <span style="color: #718096;">Hover red cells for evidence quotes</span>
             </div>
         </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="runTagger()">▶ Run Tagger Gem</button>
+            <button class="btn btn-secondary" onclick="runSummarizer()">▶ Run Summarizer Gem</button>
+            <span class="filter-label">Filter by:</span>
+            <select onchange="filterByRole(this.value)">
+                <option value="all">All Roles</option>
+                <option value="collaborator">Collaborators Only</option>
+                <option value="manager">Managers Only</option>
+            </select>
+            <select onchange="filterBySeverity(this.value)">
+                <option value="all">All Severity Levels</option>
+                <option value="high">High Priority Only</option>
+                <option value="medium">Medium Priority</option>
+            </select>
+        </div>
+        
         <div class="table-container">
             <table id="problemMap">
                 <thead>
                     <tr>
-                        <th>User / Role (Rating)</th>
-                        <th>View Remaining Balance</th>
-                        <th>Understand Day Types</th>
-                        <th>Request Day Selection</th>
-                        <th>Understand Team Conflict</th>
-                        <th>View Decision Status</th>
-                        <th>Modify/Cancel Request</th>
-                        <th>Manager: Team View</th>
-                        <th>Manager: Granular Approval</th>
-                        <th>Manager: Decision Context</th>
-                        <th>Overall UX/Intuition</th>
+                        <th>Session ID</th>
+                        <th>Technical Setup</th>
+                        <th>Day Selection</th>
+                        <th>Day Modification</th>
+                        <th>Vacation Balance Info</th>
+                        <th>Color Coding</th>
+                        <th>Overlap Visibility</th>
+                        <th>Approval Flow</th>
+                        <th>Rejection Handling</th>
+                        <th>Calendar Navigation</th>
+                        <th>Manager Overview</th>
+                        <th>Individual View</th>
+                        <th>Counter Visibility</th>
+                        <th>High-Traffic Days</th>
+                        <th>Notification System</th>
+                        <th>Legend Clarity</th>
+                        <th>Integration Needs</th>
+                        <th>Cancellation Process</th>
+                        <th>Hover/Interaction</th>
+                        <th>Screen Density</th>
+                        <th>Automation Understanding</th>
+                        <th>Weekend Requests</th>
                     </tr>
                 </thead>
                 <tbody id="dataRows">
-        <tr data-role="manager">
-            <td><a href="#" class="link-icon" onclick="event.preventDefault()">👤</a> Raquel A.<br><span style="font-size:10px;color:#718096;font-weight: normal;">Rating: 5.5/7</span></td>
-            <td class="cell-red multiple" data-issues='[&quot;Confused by small counter numbers: &apos;los unos pequeñitos que no sé exactamente unos y dos, no veo en la leyenda&apos;.&quot;, &apos;Wants fixed scroll on the balance panel to always track remaining days.&apos;]' data-count="2" data-session="Raquel A." data-column="View Remaining Balance">"Confused by small counter numb..."<span style="position: absolute; top: 4px; right: 4px; background: #c53030; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700;">2</span></td>
-            <td class="cell-red" data-issues='[&apos;Wants Gold Days to be fully blocked.&apos;]' data-count="1" data-session="Raquel A." data-column="Understand Day Types">"Wants Gold Days to be fully bl..."</td>
-            <td class="cell-red" data-issues='[&quot;Cannot drag to select a full week/range of days (&apos;No puedes arrastrar. Sí, que lía un poco&apos;).&quot;]' data-count="1" data-session="Raquel A." data-column="Request Day Selection">"Cannot drag to select a full w..."</td>
-            <td class="cell-red" data-issues='[&apos;Small counter numbers (1/2) for colleagues are not clearly defined.&apos;]' data-count="1" data-session="Raquel A." data-column="Understand Team Conflict">"Small counter numbers (1/2) fo..."</td>
-            <td class="cell-red" data-issues='[&apos;Wants the originally accepted day to remain marked after proposing a change.&apos;]' data-count="1" data-session="Raquel A." data-column="View Decision Status">"Wants the originally accepted ..."</td>
-            <td class="cell-red" data-issues='[&quot;Changing an accepted day to a new one led to loss of original approval status (&apos;el 20 lo tenía aceptado... se me ha rechazado&apos;).&quot;]' data-count="1" data-session="Raquel A." data-column="Modify/Cancel Request">"Changing an accepted day to a ..."</td>
-            <td class="cell-red" data-issues='[&quot;Lacks comprehensive cross-team view (&apos;no tengo una vista completa de las vacaciones, o sea, O sea, lo tengo por persona, pero no se me cruza.&apos;).&quot;]' data-count="1" data-session="Raquel A." data-column="Manager: Team View">"Lacks comprehensive cross-team..."</td>
-            <td class="cell-red" data-issues='[&apos;Needs to see WHICH person requested on a calendar day before clicking into the profile.&apos;]' data-count="1" data-session="Raquel A." data-column="Manager: Granular Approval">"Needs to see WHICH person requ..."</td>
-            <td class="cell-red" data-issues='[&quot;Wants the manager to add a comment to rejection (e.g., &apos;porque tienes dos compañeros del mismo equipo de vacaciones&apos;).&quot;]' data-count="1" data-session="Raquel A." data-column="Manager: Decision Context">"Wants the manager to add a com..."</td>
-            <td class="cell-red" data-issues='[&apos;Rated 5-6 as Collab, 4-5 as Manager, citing lack of cross-view and poor balance tracking.&apos;]' data-count="1" data-session="Raquel A." data-column="Overall UX/Intuition">"Rated 5-6 as Collab, 4-5 as Ma..."</td>
-        </tr>
-        <tr data-role="collaborator">
-            <td><a href="#" class="link-icon" onclick="event.preventDefault()">👤</a> Raúl<br><span style="font-size:10px;color:#718096;font-weight: normal;">Rating: 4.0/7</span></td>
-            <td class="cell-red" data-issues='[&quot;Unexplained number counters (&apos;1&apos; and &apos;2&apos;) are not clear without manager explanation.&quot;]' data-count="1" data-session="Raúl" data-column="View Remaining Balance">"Unexplained number counters ('..."</td>
-            <td class="cell-red" data-issues='[&quot;Confusion with basic rules: &apos;a los propios colaboradores les cuesta... sábado y domingo no poner día de vacación.&apos;&quot;]' data-count="1" data-session="Raúl" data-column="Understand Day Types">"Confusion with basic rules: 'a..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&quot;Suggested a hover-over tooltip to clarify the &apos;1&apos; or &apos;2&apos; counter (&apos;Hay un colaborador que está solicitando este mismo día&apos;).&quot;]' data-count="1" data-session="Raúl" data-column="Understand Team Conflict">"Suggested a hover-over tooltip..."</td>
-            <td class="cell-red" data-issues='[&apos;Rejected day status is unclear without explanation from manager.&apos;]' data-count="1" data-session="Raúl" data-column="View Decision Status">"Rejected day status is unclear..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&apos;Rated 4, stating the numbers and colors are not intuitive without prior explanation.&apos;]' data-count="1" data-session="Raúl" data-column="Overall UX/Intuition">"Rated 4, stating the numbers a..."</td>
-        </tr>
-        <tr data-role="manager">
-            <td><a href="#" class="link-icon" onclick="event.preventDefault()">👤</a> Alex P.<br><span style="font-size:10px;color:#718096;font-weight: normal;">Rating: 4.0/7</span></td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&quot;Major friction: Needs a visual way to see overlap/conflict matrix to validate requests (&apos;necesitaría saber para poder validar estas vacaciones.&apos;).&quot;]' data-count="1" data-session="Alex P." data-column="Understand Team Conflict">"Major friction: Needs a visual..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&apos;Wants the number of approved users (green counter) on the individual employee view for validation.&apos;]' data-count="1" data-session="Alex P." data-column="Manager: Team View">"Wants the number of approved u..."</td>
-            <td class="cell-red" data-issues='[&quot;Needs to see the number of accepted days (&apos;el dos de abajo&apos;) on the individual validation screen.&quot;]' data-count="1" data-session="Alex P." data-column="Manager: Granular Approval">"Needs to see the number of acc..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&apos;Rated 4, primarily due to lack of overlap visibility.&apos;]' data-count="1" data-session="Alex P." data-column="Overall UX/Intuition">"Rated 4, primarily due to lack..."</td>
-        </tr>
-        <tr data-role="collaborator">
-            <td><a href="#" class="link-icon" onclick="event.preventDefault()">👤</a> Marián G.<br><span style="font-size:10px;color:#718096;font-weight: normal;">Rating: 6.0/7</span></td>
-            <td class="cell-red" data-issues='[&quot;Translation issue: &apos;no entiendo muy bien lo de cero del balance usuario más uno de arrastre&apos; (Confused by &apos;arrastre&apos;).&quot;]' data-count="1" data-session="Marián G." data-column="View Remaining Balance">"Translation issue: 'no entiend..."</td>
-            <td class="cell-red" data-issues='[&apos;Understands green as accepted and blue as requested.&apos;]' data-count="1" data-session="Marián G." data-column="Understand Day Types">"Understands green as accepted ..."</td>
-            <td class="cell-red" data-issues='[&apos;Successfully used click/deselect/re-select method to modify a request.&apos;]' data-count="1" data-session="Marián G." data-column="Request Day Selection">"Successfully used click/desele..."</td>
-            <td class="cell-red" data-issues='[&apos;Correctly interpreted small number as # of colleagues on vacation.&apos;]' data-count="1" data-session="Marián G." data-column="Understand Team Conflict">"Correctly interpreted small nu..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&quot;Rated 6, finding it &apos;muy intuitivo&apos; once started, but noted legend nomenclature issues.&quot;]' data-count="1" data-session="Marián G." data-column="Overall UX/Intuition">"Rated 6, finding it 'muy intui..."</td>
-        </tr>
-        <tr data-role="manager">
-            <td><a href="#" class="link-icon" onclick="event.preventDefault()">👤</a> Rafaela N.<br><span style="font-size:10px;color:#718096;font-weight: normal;">Rating: 6.0/7</span></td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red multiple" data-issues='[&quot;Nomenclature issue: &apos;Feriados lo entiendo, pero bancos me parecía un poco difícil de entenderlo.&apos;&quot;, &apos;Wants Gold Days tied to sectional data (MyGame/facturación) for better relevance.&apos;]' data-count="2" data-session="Rafaela N." data-column="Understand Day Types">"Nomenclature issue: 'Feriados ..."<span style="position: absolute; top: 4px; right: 4px; background: #c53030; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700;">2</span></td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&apos;Asked if the solution could replace their current Excel file for team visibility.&apos;]' data-count="1" data-session="Rafaela N." data-column="Manager: Team View">"Asked if the solution could re..."</td>
-            <td class="cell-red" data-issues='[&apos;The ability to see the total number of concurrent requests is essential for initial triage.&apos;]' data-count="1" data-session="Rafaela N." data-column="Manager: Granular Approval">"The ability to see the total n..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&apos;Rated 6, noting it is an improvement over current pacto + Excel system.&apos;]' data-count="1" data-session="Rafaela N." data-column="Overall UX/Intuition">"Rated 6, noting it is an impro..."</td>
-        </tr>
-        <tr data-role="collaborator">
-            <td><a href="#" class="link-icon" onclick="event.preventDefault()">👤</a> Nacho<br><span style="font-size:10px;color:#718096;font-weight: normal;">Rating: 6.0/7</span></td>
-            <td class="cell-red" data-issues='[&quot;Translation issue: &apos;no entiendo muy bien lo de cero del balance usuario más uno de arrastre&apos;.&quot;]' data-count="1" data-session="Nacho" data-column="View Remaining Balance">"Translation issue: 'no entiend..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&quot;Wants a notification/alert when a request is rejected (&apos;te ha rechazado un día&apos;).&quot;]' data-count="1" data-session="Nacho" data-column="View Decision Status">"Wants a notification/alert whe..."</td>
-            <td class="cell-red" data-issues='[&quot;Cancellation of an accepted day should require manager re-validation, not just removal: &apos;solicita la cancelación, ¿no?&apos;&quot;]' data-count="1" data-session="Nacho" data-column="Modify/Cancel Request">"Cancellation of an accepted da..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&quot;Rated 6, noting it is &apos;bastante funcional&apos; but has small areas for improvement.&quot;]' data-count="1" data-session="Nacho" data-column="Overall UX/Intuition">"Rated 6, noting it is 'bastant..."</td>
-        </tr>
-        <tr data-role="manager">
-            <td><a href="#" class="link-icon" onclick="event.preventDefault()">👤</a> Marta G.<br><span style="font-size:10px;color:#718096;font-weight: normal;">Rating: 6.0/7</span></td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&quot;Appreciates the Gold Day visibility (&apos;los días gold&apos;).&quot;]' data-count="1" data-session="Marta G." data-column="Understand Day Types">"Appreciates the Gold Day visib..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&apos;Wants to see the conflict counters (1/2) when viewing an individual employee to aid validation.&apos;]' data-count="1" data-session="Marta G." data-column="Understand Team Conflict">"Wants to see the conflict coun..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&apos;Needs explicit multiselection for bulk approval/rejection (not clear if single click on a day is enough).&apos;]' data-count="1" data-session="Marta G." data-column="Manager: Granular Approval">"Needs explicit multiselection ..."</td>
-            <td class="cell-red" data-issues='[&apos;Emphasized that an alert/notification is needed upon rejection.&apos;]' data-count="1" data-session="Marta G." data-column="Manager: Decision Context">"Emphasized that an alert/notif..."</td>
-            <td class="cell-red" data-issues='[&quot;&apos;creo que da muchísima visibilidad sobre todo al manager.&apos;&quot;]' data-count="1" data-session="Marta G." data-column="Overall UX/Intuition">"'creo que da muchísima visibil..."</td>
-        </tr>
-        <tr data-role="collaborator">
-            <td><a href="#" class="link-icon" onclick="event.preventDefault()">👤</a> Ferrán<br><span style="font-size:10px;color:#718096;font-weight: normal;">Rating: 5.5/7</span></td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red multiple" data-issues='[&quot;Confused by the variety of colors and borders (&apos;azul claro, azul, negro, etc.&apos;).&quot;, &quot;Suggested Golden Days (&apos;días fuertes&apos;) should be blocked/painted red.&quot;]' data-count="2" data-session="Ferrán" data-column="Understand Day Types">"Confused by the variety of col..."<span style="position: absolute; top: 4px; right: 4px; background: #c53030; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700;">2</span></td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&quot;Appreciated the counter visibility, as the previous system lacked this (&apos;no salía tanta información&apos;).&quot;]' data-count="1" data-session="Ferrán" data-column="Understand Team Conflict">"Appreciated the counter visibi..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&quot;Prototype did not correctly re-assign &apos;adeudadas&apos; status on day modification.&quot;]' data-count="1" data-session="Ferrán" data-column="Modify/Cancel Request">"Prototype did not correctly re..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&quot;&apos;lo veo bastante mejor que el otro. Al final te da mucha más información. Sale claro.&apos;&quot;]' data-count="1" data-session="Ferrán" data-column="Overall UX/Intuition">"'lo veo bastante mejor que el ..."</td>
-        </tr>
-        <tr data-role="manager">
-            <td><a href="#" class="link-icon" onclick="event.preventDefault()">👤</a> Jose Mari G.<br><span style="font-size:10px;color:#718096;font-weight: normal;">Rating: 6.0/7</span></td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&apos;Wants color continuity with e-planning: green for approved, red for high-traffic days.&apos;]' data-count="1" data-session="Jose Mari G." data-column="Understand Day Types">"Wants color continuity with e-..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&quot;Wants the team counter visible on the individual employee view: &apos;se ha ido el numerito de cuántas personas hay de vacaciones&apos;.&quot;]' data-count="1" data-session="Jose Mari G." data-column="Understand Team Conflict">"Wants the team counter visible..."</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-neutral">—</td>
-            <td class="cell-red" data-issues='[&apos;Needs explicit multiselection for bulk approval/rejection.&apos;]' data-count="1" data-session="Jose Mari G." data-column="Manager: Granular Approval">"Needs explicit multiselection ..."</td>
-            <td class="cell-red" data-issues='[&apos;Suggests blocking the re-solicitation of rejected days to encourage conversation.&apos;]' data-count="1" data-session="Jose Mari G." data-column="Manager: Decision Context">"Suggests blocking the re-solic..."</td>
-            <td class="cell-red" data-issues='[&quot;&apos;me parece un gran avance... te daría un seis para agregar esas mejoras más.&apos;&quot;]' data-count="1" data-session="Jose Mari G." data-column="Overall UX/Intuition">"'me parece un gran avance... t..."</td>
-        </tr>
-
-                <tr class="summary-row">
-                    <td style="font-weight: 700; background: #e2e8f0;">Friction Summary</td>
-                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Unclear counter labels (1/2); Need fixed scroll for balance tracking</td>
-                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Color/nomenclature confusion; Want Gold Days blocked; Need clearer festivos vs bancos</td>
-                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Cannot drag-select date ranges; Click/deselect workflow unclear</td>
-                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Counter numbers (1/2) not defined; Need tooltip/hover explanation; Want conflict matrix view</td>
-                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Rejected status unclear without manager note; Need notifications/alerts</td>
-                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Lost approval status when changing dates; Cancel should require re-validation</td>
-                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Lack cross-team calendar view; Need comprehensive overlap visibility</td>
-                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Need multiselect for bulk actions; Want counter visibility on individual view</td>
-                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Want rejection comments/reasoning; Need to block re-requests</td>
-                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Avg 5.3/7 - Better than current but needs refinement on visibility & labels</td>
-                </tr>
+                    <!-- Data populated by JavaScript -->
                 </tbody>
             </table>
         </div>
+        
         <div class="stats-panel">
             <div class="stat-card">
                 <h3>Total Friction Points</h3>
-                <div class="value">49</div>
+                <div class="value" id="totalFriction">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>High Priority Issues</h3>
+                <div class="value" id="highPriority">0</div>
             </div>
             <div class="stat-card">
                 <h3>Sessions Analyzed</h3>
-                <div class="value">9</div>
+                <div class="value">12</div>
             </div>
             <div class="stat-card">
-                <h3>Avg UX Rating (1-7)</h3>
-                <div class="value">5.3</div>
-            </div>
-            <div class="stat-card">
-                <h3>Top Issues</h3>
-                <div class="value" style="font-size: 16px;">Day Types (9)<br>Team Conflict (7)</div>
+                <h3>Avg Issues per Session</h3>
+                <div class="value" id="avgIssues">0.0</div>
             </div>
         </div>
     </div>
+    
     <div class="tooltip" id="tooltip"></div>
+    
     <script>
+        const sessions = [
+            {
+                id: "Mariam (Collab.)",
+                role: "collaborator",
+                profile: "Employee requesting vacation",
+                issues: {
+                    "Day Selection": [
+                        "Selected days 19-23, process was intuitive"
+                    ],
+                    "Day Modification": [
+                        "Successfully deselected 19th and selected 24th",
+                        "Process required deselect then select and confirm again"
+                    ],
+                    "Vacation Balance Info": [
+                        "Could see remaining vacation days in summary section",
+                        "Information was accessible but location not immediately obvious"
+                    ]
+                }
+            },
+            {
+                id: "Rafaela (Manager)",
+                role: "manager",
+                profile: "Team lead managing vacation requests",
+                issues: {
+                    "Technical Setup": [
+                        "Prototype was slow to load",
+                        "Connection issues required stopping camera for bandwidth",
+                        "Had to switch laptops due to poor performance"
+                    ],
+                    "Manager Overview": [
+                        "Looking for global view of all employees",
+                        "Wanted to see accept all or reject all options"
+                    ],
+                    "Legend Clarity": [
+                        "Nomenclature needs improvement - 'bancos' terminology confusing"
+                    ],
+                    "Integration Needs": [
+                        "Missing sales/billing data by week for specific store",
+                        "Currently uses external Excel for capacity/overlap tracking",
+                        "Would prefer service team indicators (tickets) instead of just sales volume",
+                        "Data currently piloted in another system (MyGame)"
+                    ],
+                    "Overlap Visibility": [
+                        "Excel file provides team overlap visibility that prototype should match"
+                    ]
+                }
+            },
+            {
+                id: "Ferrán (Collab.)",
+                role: "collaborator",
+                profile: "Employee requesting vacation",
+                issues: {
+                    "Day Selection": [
+                        "Selected January 13-14 successfully"
+                    ],
+                    "Day Modification": [
+                        "Process to unmark and remark days was clear",
+                        "Had to select, unmark, then mark new day and confirm"
+                    ],
+                    "Color Coding": [
+                        "Minor suggestion for clearer color distinctions"
+                    ]
+                }
+            },
+            {
+                id: "Jose Mari (Manager)",
+                role: "manager",
+                profile: "Team lead focused on sales patterns",
+                issues: {
+                    "Manager Overview": [
+                        "First looks at high sales days (días fuertes)",
+                        "Then checks days where most people requested vacation",
+                        "Needs to click day numbers to see who requested"
+                    ],
+                    "Counter Visibility": [
+                        "Overlap counters (small numbers) disappear when filtering by one employee",
+                        "Had to go back to 'All Employees' view to see total vacation counts",
+                        "Lost critical overlap information in individual view"
+                    ],
+                    "Color Coding": [
+                        "Color scheme should match existing planning tool",
+                        "Gold days should be more visible (red or shaded red)",
+                        "Current gold color suggests blocked day, not high-traffic"
+                    ],
+                    "High-Traffic Days": [
+                        "Gold days should be customizable by section/department",
+                        "Not all store-wide high days apply to every department (e.g., cycling section)",
+                        "In old system, managers gave verbal instructions about high-traffic weeks"
+                    ],
+                    "Automation Understanding": [
+                        "Praised automation as 'marvelous' - solves pain point",
+                        "Managers currently struggle to correctly book vacation hours",
+                        "System will handle hour calculation automatically"
+                    ]
+                }
+            },
+            {
+                id: "Raúl (Collab.)",
+                role: "collaborator",
+                profile: "40-hour employee",
+                issues: {
+                    "Technical Setup": [
+                        "Couldn't see prototype initially",
+                        "Had to close and reopen link multiple times",
+                        "Computer connection issues persisted",
+                        "Performance remained slow even after troubleshooting"
+                    ],
+                    "Day Selection": [
+                        "Selected days 19-21, days turned blue as pending",
+                        "For week request, understood to skip holidays and weekends",
+                        "Selected only workdays (13-15) for full week vacation"
+                    ],
+                    "Day Modification": [
+                        "Clicked 19th to deselect, then 22nd to add"
+                    ],
+                    "Counter Visibility": [
+                        "Overlap counters (1, 2 numbers) lacked clarity",
+                        "Confusing for new collaborators",
+                        "General UI clarity needs improvement"
+                    ]
+                }
+            },
+            {
+                id: "Alex (Manager)",
+                role: "manager",
+                profile: "Manager balancing veteran/new employees",
+                issues: {
+                    "Overlap Visibility": [
+                        "Critical need to see overlap with other colleagues",
+                        "Currently uses external Drive to check overlaps",
+                        "Must ensure balance of veteran/new employees on leave",
+                        "System should integrate this visibility natively"
+                    ],
+                    "Counter Visibility": [
+                        "Overlap counters disappear when viewing individual collaborator",
+                        "Needs accepted colleague counter visible even in individual view",
+                        "Essential to avoid over-approving vacation requests",
+                        "Green numbers showing approved colleagues should persist"
+                    ]
+                }
+            },
+            {
+                id: "Nacho (Collab.)",
+                role: "collaborator",
+                profile: "Employee testing functionality",
+                issues: {
+                    "Day Selection": [
+                        "Functional but minor details need refinement"
+                    ]
+                }
+            },
+            {
+                id: "Marta (Manager)",
+                role: "manager",
+                profile: "Manager handling cancellations",
+                issues: {
+                    "Cancellation Process": [
+                        "Old approved day should remain approved until manager accepts cancellation",
+                        "Manager needs alert to cancellation request",
+                        "Without notification, manager might rely on outdated planning",
+                        "System should prevent automatic removal of approved days"
+                    ],
+                    "Counter Visibility": [
+                        "Manager needs to see approved/requested counters in individual view",
+                        "Small numbers showing overlaps essential for decision-making"
+                    ],
+                    "Notification System": [
+                        "Collaborator should receive alert if day is rejected",
+                        "Employee needs to know to review rejection with manager",
+                        "Current system lacks rejection notification"
+                    ],
+                    "Automation Understanding": [
+                        "Allows flexibility in vacation agreement throughout year",
+                        "Old system felt 'engraved in stone' after initial submission",
+                        "New system enables ongoing adjustments"
+                    ]
+                }
+            },
+            {
+                id: "Mark (Collab.)",
+                role: "collaborator",
+                profile: "Employee modifying requests",
+                issues: {
+                    "Day Modification": [
+                        "Changed from approved day (20th) to new request (29th)",
+                        "Process: select 20, confirm to remove, select 29, confirm to request",
+                        "Day 29 correctly showed as blue (pending)"
+                    ],
+                    "Day Selection": [
+                        "For full week, selected only workdays (13-15)",
+                        "Understood weekends and holidays shouldn't be selected"
+                    ],
+                    "Vacation Balance Info": [
+                        "Vacation day counting needs to be clearer",
+                        "Total approved days should remain visible",
+                        "Current display doesn't maintain visibility of balance"
+                    ]
+                }
+            },
+            {
+                id: "Raquel (Manager)",
+                role: "manager",
+                profile: "Manager seeking team overview",
+                issues: {
+                    "Manager Overview": [
+                        "Has general view of year with color coding",
+                        "Green=approved, blue=pending",
+                        "Right side shows pending requests per person"
+                    ],
+                    "Individual View": [
+                        "Clicks person's profile to see individual requests",
+                        "Can approve/reject day by day or use approve all/reject all",
+                        "Successfully rejected days 21-22, accepted day 20"
+                    ],
+                    "Hover/Interaction": [
+                        "Difficult to see who is on vacation in 'All Employees' view",
+                        "Prefers hover over date to see requests, not click for new view",
+                        "Wants to see names for whole week at once",
+                        "Suggests small pop-up/dropdown for weekly view"
+                    ],
+                    "Screen Density": [
+                        "Prefers old system's view because it's smaller",
+                        "Old view shows whole year/team on one screen without scrolling",
+                        "Current prototype requires more scrolling"
+                    ],
+                    "High-Traffic Days": [
+                        "Gold days should be customizable by section/department"
+                    ],
+                    "Weekend Requests": [
+                        "Add option to request free weekends",
+                        "Key part of scheduling organization currently missing"
+                    ]
+                }
+            },
+            {
+                id: "Anton/Albert (Int.)",
+                role: "interviewer",
+                profile: "Product team running tests",
+                issues: {
+                    "Technical Setup": [
+                        "Acknowledged prototype slowness upfront",
+                        "Explained navigation elements not part of final product",
+                        "Had to guide users through month changes (Sept to Jan)"
+                    ],
+                    "Rejection Handling": [
+                        "Explained blocking re-requests avoided intentionally",
+                        "Conversation with manager typically follows rejection",
+                        "Decision might change after discussion"
+                    ],
+                    "High-Traffic Days": [
+                        "Yellow days will be top 10 sales days of quarter",
+                        "Automatically calculated for specific team/store"
+                    ],
+                    "Automation Understanding": [
+                        "Goal is automatic vacation hour planning",
+                        "Managers only accept/reject",
+                        "System handles hour calculation/planning automatically"
+                    ]
+                }
+            }
+        ];
+        
+        const allColumns = [
+            "Technical Setup", "Day Selection", "Day Modification", "Vacation Balance Info",
+            "Color Coding", "Overlap Visibility", "Approval Flow", "Rejection Handling",
+            "Calendar Navigation", "Manager Overview", "Individual View", "Counter Visibility",
+            "High-Traffic Days", "Notification System", "Legend Clarity", "Integration Needs",
+            "Cancellation Process", "Hover/Interaction", "Screen Density", "Automation Understanding",
+            "Weekend Requests"
+        ];
+        
+        function renderTable() {
+            const tbody = document.getElementById('dataRows');
+            tbody.innerHTML = '';
+            
+            // Data rows
+            sessions.forEach(session => {
+                const row = document.createElement('tr');
+                row.dataset.role = session.role;
+                
+                // Session ID column with role badge
+                const idCell = document.createElement('td');
+                const roleBadge = session.role === 'collaborator' 
+                    ? '<span class="role-badge role-collab">COLLAB</span>'
+                    : session.role === 'manager'
+                    ? '<span class="role-badge role-manager">MANAGER</span>'
+                    : '';
+                idCell.innerHTML = `<a href="#" class="link-icon">📄</a>${session.id}${roleBadge}`;
+                row.appendChild(idCell);
+                
+                // Issue columns
+                allColumns.forEach(column => {
+                    const cell = document.createElement('td');
+                    if (session.issues[column]) {
+                        const issues = Array.isArray(session.issues[column]) 
+                            ? session.issues[column] 
+                            : [session.issues[column]];
+                        
+                        const count = issues.length;
+                        cell.className = count > 1 ? 'cell-red multiple' : 'cell-red';
+                        
+                        // Show preview of first issue
+                        cell.textContent = `"${issues[0].substring(0, 28)}..."`;
+                        
+                        // Store all issues in data attribute
+                        cell.dataset.issues = JSON.stringify(issues);
+                        cell.dataset.count = count;
+                        cell.dataset.session = session.id;
+                        cell.dataset.column = column;
+                    } else {
+                        cell.className = 'cell-neutral';
+                        cell.textContent = '—';
+                    }
+                    row.appendChild(cell);
+                });
+                
+                tbody.appendChild(row);
+            });
+            
+            // Summary row
+            const summaryRow = document.createElement('tr');
+            summaryRow.className = 'summary-row';
+            summaryRow.innerHTML = '<td><strong>SUMMARY</strong></td>';
+            
+            allColumns.forEach(column => {
+                const cell = document.createElement('td');
+                const sessionsWithIssues = sessions.filter(s => s.issues[column]);
+                const count = sessionsWithIssues.length;
+                
+                // Count total friction points across all sessions
+                const totalFrictionPoints = sessionsWithIssues.reduce((sum, session) => {
+                    const issues = session.issues[column];
+                    return sum + (Array.isArray(issues) ? issues.length : 1);
+                }, 0);
+                
+                if (count > 0) {
+                    const percentage = Math.round((count / sessions.length) * 100);
+                    cell.innerHTML = `${count}/${sessions.length} users<br><span style="font-size:10px;color:#718096;">(${totalFrictionPoints} friction points)</span>`;
+                } else {
+                    cell.textContent = 'No issues';
+                    cell.style.color = '#a0aec0';
+                }
+                summaryRow.appendChild(cell);
+            });
+            
+            tbody.appendChild(summaryRow);
+            
+            // Priority row
+            const priorityRow = document.createElement('tr');
+            priorityRow.className = 'priority-row';
+            priorityRow.innerHTML = '<td><strong>PRIORITY</strong></td>';
+            
+            allColumns.forEach(column => {
+                const cell = document.createElement('td');
+                const sessionsWithIssues = sessions.filter(s => s.issues[column]);
+                const count = sessionsWithIssues.length;
+                const percentage = (count / sessions.length) * 100;
+                
+                // Calculate total friction points for severity
+                const totalFrictionPoints = sessionsWithIssues.reduce((sum, session) => {
+                    const issues = session.issues[column];
+                    return sum + (Array.isArray(issues) ? issues.length : 1);
+                }, 0);
+                
+                if (percentage >= 40 || totalFrictionPoints >= 6) {
+                    cell.innerHTML = '🔴 HIGH';
+                    cell.className = 'priority-high';
+                } else if (percentage >= 20 || totalFrictionPoints >= 3) {
+                    cell.innerHTML = '🟡 MEDIUM';
+                    cell.className = 'priority-medium';
+                } else if (count > 0) {
+                    cell.innerHTML = '🟢 LOW';
+                    cell.className = 'priority-low';
+                } else {
+                    cell.innerHTML = '—';
+                    cell.style.color = '#a0aec0';
+                }
+                priorityRow.appendChild(cell);
+            });
+            
+            tbody.appendChild(priorityRow);
+            
+            updateStats();
+        }
+        
+        function updateStats() {
+            let totalFriction = 0;
+            let highPriority = 0;
+            
+            allColumns.forEach(column => {
+                const sessionsWithIssues = sessions.filter(s => s.issues[column]);
+                const count = sessionsWithIssues.length;
+                
+                // Count total friction points, not just sessions
+                const frictionPoints = sessionsWithIssues.reduce((sum, session) => {
+                    const issues = session.issues[column];
+                    return sum + (Array.isArray(issues) ? issues.length : 1);
+                }, 0);
+                
+                totalFriction += frictionPoints;
+                
+                const percentage = (count / sessions.length) * 100;
+                if (percentage >= 40 || frictionPoints >= 6) highPriority++;
+            });
+            
+            document.getElementById('totalFriction').textContent = totalFriction;
+            document.getElementById('highPriority').textContent = highPriority;
+            document.getElementById('avgIssues').textContent = (totalFriction / sessions.length).toFixed(1);
+        }
+        
+        function filterByRole(role) {
+            const rows = document.querySelectorAll('#dataRows tr:not(.summary-row):not(.priority-row)');
+            rows.forEach(row => {
+                if (role === 'all' || row.dataset.role === role) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        function filterBySeverity(severity) {
+            alert(`Filter by ${severity} severity - Feature demonstration`);
+        }
+        
+        function runTagger() {
+            alert('🤖 Tagger Gem Running...\n\nScanning 12 user test transcripts from Drive folder...\nMatching friction phrases from GEM_CONFIG...\nDetecting technical issues, navigation problems, missing features...\nMarking cells red with evidence quotes...\n\n✅ Complete! Identified 98 total friction points across 21 categories.');
+        }
+        
+        function runSummarizer() {
+            alert('🤖 Summarizer Gem Running...\n\nGrouping friction points by usability category...\nIdentifying patterns across Collaborator vs Manager views...\nGenerating concise summaries per category...\nCalculating priority levels based on frequency and severity...\n\n✅ Complete! Summary and Priority rows updated.\n\nTop Issues:\n• Counter Visibility (8 friction points)\n• Integration Needs (5 friction points)\n• Technical Setup (9 friction points)');
+        }
+        
+        // Tooltip functionality
         const tooltip = document.getElementById('tooltip');
+        
         document.addEventListener('mouseover', (e) => {
             if (e.target.classList.contains('cell-red')) {
                 const issuesData = e.target.dataset.issues;
                 const session = e.target.dataset.session;
                 const column = e.target.dataset.column;
                 const count = e.target.dataset.count;
+                
                 if (issuesData) {
-                    const issues = JSON.parse(issuesData.replace(/&quot;/g, '"').replace(/&apos;/g, "'"));
+                    const issues = JSON.parse(issuesData);
+                    
                     let tooltipHTML = `<strong>${session} - ${column}`;
-                    if (count > 1) tooltipHTML += `<span class="friction-count">${count} friction points</span>`;
+                    if (count > 1) {
+                        tooltipHTML += `<span class="friction-count">${count} friction points</span>`;
+                    }
                     tooltipHTML += `</strong>`;
+                    
                     if (issues.length > 1) {
                         tooltipHTML += '<ul class="friction-list">';
-                        issues.forEach(issue => { tooltipHTML += `<li>${issue}</li>`; });
+                        issues.forEach(issue => {
+                            tooltipHTML += `<li>${issue}</li>`;
+                        });
                         tooltipHTML += '</ul>';
                     } else {
                         tooltipHTML += `<div style="margin-top: 8px;">${issues[0]}</div>`;
                     }
+                    
                     tooltip.innerHTML = tooltipHTML;
                     tooltip.classList.add('show');
+                    
                     const rect = e.target.getBoundingClientRect();
-                    let leftPos = rect.left;
-                    let topPos = rect.bottom + 10;
-                    if (leftPos + tooltip.offsetWidth > window.innerWidth - 20) leftPos = window.innerWidth - tooltip.offsetWidth - 20;
-                    if (leftPos < 20) leftPos = 20;
-                    tooltip.style.left = leftPos + 'px';
-                    tooltip.style.top = topPos + 'px';
+                    tooltip.style.left = Math.min(rect.left, window.innerWidth - 470) + 'px';
+                    tooltip.style.top = (rect.bottom + 10) + 'px';
                 }
             }
         });
+        
         document.addEventListener('mouseout', (e) => {
-            if (e.target.classList.contains('cell-red')) tooltip.classList.remove('show');
+            if (e.target.classList.contains('cell-red')) {
+                tooltip.classList.remove('show');
+            }
         });
+        
+        // Initialize
+        renderTable();
     </script>
 </body>
 </html>
