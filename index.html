@@ -24,10 +24,13 @@
         th:last-child { border-right: none; }
         td { padding: 12px 10px; border: 1px solid #e2e8f0; position: relative; min-width: 130px; max-width: 180px; vertical-align: top; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         td:first-child { position: sticky; left: 0; background: white; font-weight: 600; z-index: 5; border-right: 2px solid #a0aec0; white-space: nowrap; overflow: visible; }
+        .summary-row td:first-child { background: #e2e8f0 !important; }
         .cell-red { background: #fed7d7; color: #742a2a; font-size: 11px; cursor: pointer; transition: all 0.2s; position: relative; font-weight: 500; }
         .cell-red:hover { background: #fc8181; transform: scale(1.02); z-index: 15; box-shadow: 0 0 5px rgba(197, 48, 48, 0.5); }
         .cell-red.multiple { background: #f56565; color: white; font-weight: 600; }
         .cell-neutral { background: #f7fafc; color: #a0aec0; text-align: center; }
+        .summary-row { background: #fef5e7; font-weight: 500; border-top: 3px solid #f59e0b; }
+        .summary-row td { padding: 14px 10px; font-size: 11px; color: #78350f; border-color: #fbbf24; line-height: 1.5; }
         .link-icon { color: #764ba2; text-decoration: none; font-size: 14px; margin-right: 5px; font-weight: 700; }
         .tooltip { position: fixed; background: #2d3748; color: white; padding: 16px; border-radius: 8px; font-size: 13px; max-width: 450px; z-index: 1000; box-shadow: 0 6px 20px rgba(0,0,0,0.4); display: none; pointer-events: none; line-height: 1.5; border: 1px solid #fbbf24; }
         .tooltip.show { display: block; }
@@ -49,7 +52,7 @@
                 <h1>📝 Vacation Management Usability Problem Map</h1>
                 <p style="margin-top: 8px; opacity: 0.9;">Decathlon Planning - Interview Synthesis (5 Sessions, 9 Users)</p>
             </div>
-            <div class="gemini-badge">✨ Pre-Rendered View</div>
+            <div class="gemini-badge">✨ Usability Heat Map</div>
         </div>
         <div class="legend">
             <strong>Legend:</strong>
@@ -202,13 +205,26 @@
             <td class="cell-red" data-issues='[&quot;&apos;me parece un gran avance... te daría un seis para agregar esas mejoras más.&apos;&quot;]' data-count="1" data-session="Jose Mari G." data-column="Overall UX/Intuition">"'me parece un gran avance... t..."</td>
         </tr>
 
+                <tr class="summary-row">
+                    <td style="font-weight: 700; background: #e2e8f0;">Friction Summary</td>
+                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Unclear counter labels (1/2); Need fixed scroll for balance tracking</td>
+                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Color/nomenclature confusion; Want Gold Days blocked; Need clearer festivos vs bancos</td>
+                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Cannot drag-select date ranges; Click/deselect workflow unclear</td>
+                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Counter numbers (1/2) not defined; Need tooltip/hover explanation; Want conflict matrix view</td>
+                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Rejected status unclear without manager note; Need notifications/alerts</td>
+                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Lost approval status when changing dates; Cancel should require re-validation</td>
+                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Lack cross-team calendar view; Need comprehensive overlap visibility</td>
+                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Need multiselect for bulk actions; Want counter visibility on individual view</td>
+                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Want rejection comments/reasoning; Need to block re-requests</td>
+                    <td style="text-align: left; font-size: 11px; background: #fef5e7; color: #2d3748; white-space: normal; line-height: 1.4; padding: 12px 8px;">Avg 5.3/7 - Better than current but needs refinement on visibility & labels</td>
+                </tr>
                 </tbody>
             </table>
         </div>
         <div class="stats-panel">
             <div class="stat-card">
                 <h3>Total Friction Points</h3>
-                <div class="value">54</div>
+                <div class="value">49</div>
             </div>
             <div class="stat-card">
                 <h3>Sessions Analyzed</h3>
@@ -219,8 +235,8 @@
                 <div class="value">5.3</div>
             </div>
             <div class="stat-card">
-                <h3>Most Common Issue</h3>
-                <div class="value" style="font-size: 14px;">Team Conflict Visibility</div>
+                <h3>Top Issues</h3>
+                <div class="value" style="font-size: 16px;">Day Types (9)<br>Team Conflict (7)</div>
             </div>
         </div>
     </div>
